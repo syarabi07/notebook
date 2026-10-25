@@ -1,0 +1,486 @@
+/* Friends & Network Page Styles */
+
+.network-page-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Tabs Bar */
+.network-tabs-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.4) transparent;
+    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    max-width: 100%;
+}
+
+.network-tabs-bar::-webkit-scrollbar {
+    height: 4px;
+}
+.network-tabs-bar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.network-tabs-bar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.4);
+    border-radius: 4px;
+}
+
+.network-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.85rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted, #6B7280);
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #E5E7EB);
+    border-radius: 8px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.network-tab-btn:hover {
+    color: var(--text-color, #1F2937);
+    border-color: #CBD5E1;
+}
+
+.network-tab-btn.active {
+    color: #2A46FF;
+    background: rgba(42, 70, 255, 0.08);
+    border-color: rgba(42, 70, 255, 0.3);
+    font-weight: 600;
+}
+
+.network-tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 10px;
+    background: var(--border-color, #E5E7EB);
+    color: var(--text-color, #1F2937);
+}
+
+.network-tab-btn.active .network-tab-count {
+    background: #2A46FF;
+    color: #ffffff;
+}
+
+.network-tab-count.alert {
+    background: #EF4444;
+    color: #ffffff;
+}
+
+/* Search Bar */
+.network-search-bar {
+    width: 100%;
+}
+
+.network-search-input-wrap {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.network-search-input-wrap .search-icon {
+    position: absolute;
+    left: 12px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted, #9CA3AF);
+    pointer-events: none;
+}
+
+.network-search-input-wrap input {
+    width: 100%;
+    padding: 0.65rem 1rem 0.65rem 2.4rem;
+    font-size: 0.875rem;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #E5E7EB);
+    border-radius: 8px;
+    color: var(--text-color, #1F2937);
+    transition: border-color 0.2s ease;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.network-search-input-wrap input:focus {
+    outline: none;
+    border-color: #2A46FF;
+}
+
+/* Grid Layout */
+.network-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.network-grid.margin-bottom {
+    margin-bottom: 1.5rem;
+}
+
+/* Network Card */
+.network-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid var(--border-color, #E5E7EB);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    box-sizing: border-box;
+    min-width: 0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.network-card:hover {
+    border-color: #CBD5E1;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.network-card.highlight-card {
+    border-color: rgba(42, 70, 255, 0.3);
+    background: linear-gradient(180deg, rgba(42, 70, 255, 0.02) 0%, var(--card-bg, #ffffff) 100%);
+}
+
+.network-card.danger-border {
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.network-card-top {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+}
+
+.network-avatar-wrap {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+}
+
+.network-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s var(--ease-out), opacity 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+.network-avatar:hover {
+    opacity: 0.92;
+    transform: scale(1.06);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.network-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.network-user-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-color, #1F2937);
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    transition: color 0.2s var(--ease-out);
+}
+
+.network-user-name:hover {
+    color: var(--accent, #2A46FF);
+    text-decoration: underline;
+}
+
+.network-badges {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+}
+
+.net-badge {
+    font-size: 0.725rem;
+    font-weight: 500;
+    padding: 0.15rem 0.45rem;
+    border-radius: 4px;
+    background: var(--bg);
+    color: var(--ink-soft);
+}
+
+.net-badge.id {
+    font-weight: 600;
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+.net-badge.highlight {
+    background: rgba(217, 119, 6, 0.15);
+    color: #D97706;
+}
+
+.net-badge.danger {
+    background: var(--danger-soft);
+    color: var(--danger);
+}
+
+.network-user-bio {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.network-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px dashed var(--border);
+}
+
+.btn-network-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex: 1;
+    white-space: nowrap;
+}
+
+.btn-network-action.primary {
+    background: var(--accent);
+    color: #ffffff;
+    border: none;
+}
+
+.btn-network-action.primary:hover {
+    background: var(--accent-hover);
+}
+
+.btn-network-action.secondary {
+    background: var(--bg);
+    color: var(--ink);
+    border: 1px solid var(--border);
+}
+
+.btn-network-action.secondary:hover {
+    background: var(--hover-bg);
+}
+
+.btn-network-action.outline {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1px solid var(--border);
+}
+
+.btn-network-action.outline:hover {
+    background: var(--hover-bg);
+    border-color: var(--muted);
+}
+
+.btn-network-action.danger-icon {
+    flex: 0 0 auto;
+    padding: 0.45rem 0.5rem;
+    background: transparent;
+    color: #DC2626;
+    border: 1px solid #FCA5A5;
+}
+
+.btn-network-action.danger-icon:hover {
+    background: #FEE2E2;
+}
+
+/* Requests Section */
+.requests-section-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-color, #1F2937);
+    margin: 0 0 0.85rem 0;
+}
+
+/* Empty State */
+.network-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 1.5rem;
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--muted);
+}
+
+.network-empty-state svg {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    color: #9CA3AF;
+}
+
+.network-empty-state h3 {
+    margin: 0 0 0.35rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-color, #1F2937);
+}
+
+.network-empty-state p {
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Toast Notification */
+.network-toast {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    padding: 0.75rem 1.25rem;
+    background: #1F2937;
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    pointer-events: none;
+}
+
+.network-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.network-toast[data-type="success"] {
+    background: #065F46;
+}
+
+.network-toast[data-type="error"] {
+    background: #991B1B;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 640px) {
+    .network-grid {
+        grid-template-columns: 1fr;
+    }
+    .network-tab-btn {
+        padding: 0.4rem 0.65rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Auth Required State Card for Network Page */
+.network-auth-required-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3.5rem 2rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: var(--shadow-sm);
+    margin: 1rem 0 2rem 0;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.network-auth-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.network-auth-icon i, .network-auth-icon svg {
+    width: 32px;
+    height: 32px;
+}
+
+.network-auth-required-card h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+}
+
+.network-auth-required-card p {
+    font-size: 0.95rem;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.55;
+    margin-bottom: 1.75rem;
+}
+
+.network-auth-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.network-auth-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.4rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}

@@ -1,0 +1,214 @@
+.profile-header-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.75rem 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+    animation: profile-appear 0.4s var(--ease-out) forwards;
+}
+
+@keyframes profile-appear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.profile-avatar-lg {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: block;
+    object-fit: cover;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    min-width: 0;
+}
+
+.profile-name-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.15;
+    color: var(--ink);
+    word-break: break-word;
+}
+
+@media (max-width: 580px) {
+    .profile-header-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+        padding: 1.25rem 1rem;
+    }
+    .profile-badges {
+        justify-content: center;
+    }
+}
+
+.profile-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 2px;
+}
+
+.profile-badge-item {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 20px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.profile-post-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.profile-post-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* BULK DELETE TOOLBAR & CHECKBOXES */
+.bulk-delete-toolbar {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+}
+
+.bulk-toolbar-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bulk-toolbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+.bulk-toolbar-actions.hidden,
+.bulk-checkbox-container.hidden,
+.btn-toggle-bulk-mode.hidden {
+    display: none !important;
+}
+
+.bulk-select-all-label,
+.bulk-post-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    user-select: none;
+}
+
+.bulk-select-all-label input[type="checkbox"],
+.bulk-post-checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--accent);
+    cursor: pointer;
+}
+
+.bulk-count-badge {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 3px 9px;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-weight: 600;
+}
+
+/* DELETE POST BUTTON UX */
+.btn-delete-post {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--danger, #EF4444);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(239, 68, 68, 0.25);
+    background: rgba(239, 68, 68, 0.08);
+    transition: all 0.2s var(--ease-out);
+    cursor: pointer;
+}
+
+.btn-delete-post:hover {
+    background: #DC2626 !important;
+    border-color: #B91C1C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-delete-post i {
+    width: 14px;
+    height: 14px;
+}
+
+#btn-toggle-bulk-mode {
+    color: var(--danger, #EF4444);
+    border-color: rgba(239, 68, 68, 0.3);
+    transition: all 0.2s var(--ease-out);
+}
+
+#btn-toggle-bulk-mode:hover {
+    background: #DC2626 !important;
+    border-color: #B91C1C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 3px 10px rgba(220, 38, 38, 0.3);
+}
+
+#btn-delete-selected {
+    background-color: var(--danger, #EF4444);
+    color: #FFFFFF !important;
+    border: 1px solid var(--danger, #EF4444);
+    transition: all 0.2s var(--ease-out);
+}
+
+#btn-delete-selected:hover:not(:disabled) {
+    background-color: #DC2626 !important;
+    border-color: #B91C1C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+    transform: translateY(-1px);
+}

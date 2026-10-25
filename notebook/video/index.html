@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notebook — Now Screening</title>
+<meta name="description" content="Watch the Notebook walkthrough — the campus digital network for NITER students.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>%E2%96%B6%EF%B8%8F</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,ital,wght@8..60,0,400;8..60,0,500;8..60,0,600;8..60,0,700;8..60,1,400;8..60,1,600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --paper:#F3EFE3;
+    --paper-line:#D8CFB8;
+    --ink:#221E19;
+    --ink-soft:#5B5347;
+    --navy:#1E2E4A;
+    --navy-soft:#3A4D71;
+    --maroon:#6B2536;
+    --maroon-soft:#8E3A4C;
+    --forest:#2A4A3B;
+    --stamp:#B23A2E;
+    --cream:#F0E9D6;
+    --cream-soft:#C9BFA5;
+    --radius:14px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    color:var(--cream);
+    font-family:'Source Serif 4', Georgia, serif;
+    background:
+      radial-gradient(1200px 700px at 20% -10%, rgba(178,58,46,0.16), transparent 60%),
+      radial-gradient(900px 600px at 100% 10%, rgba(58,77,113,0.35), transparent 55%),
+      linear-gradient(155deg, var(--navy) 0%, #1a2740 55%, var(--maroon) 130%);
+    background-attachment:fixed;
+    position:relative;
+    overflow-x:hidden;
+  }
+
+  /* subtle vertical hairline texture, matching the Notebook doc brand */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,0.03) 0 1px, transparent 1px 64px);
+    pointer-events:none;
+    z-index:0;
+  }
+  /* film grain overlay */
+  body::after{
+    content:"";
+    position:fixed; inset:0;
+    opacity:0.05;
+    mix-blend-mode:overlay;
+    pointer-events:none;
+    z-index:1;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  ::selection{ background: var(--stamp); color:#fff; }
+  :focus-visible{ outline: 3px solid var(--stamp); outline-offset: 3px; border-radius:3px; }
+
+  a{ color:inherit; }
+
+  .stage{
+    position:relative; z-index:2;
+    max-width:980px;
+    margin:0 auto;
+    padding: 34px 22px 70px;
+  }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:16px; flex-wrap:wrap;
+    margin-bottom: clamp(38px, 8vw, 64px);
+  }
+  .wordmark{
+    display:flex; align-items:center; gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--cream);
+    text-decoration:none;
+  }
+  .wordmark .seal{
+    width:26px; height:26px; border-radius:50%;
+    border:1.5px solid var(--stamp);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Source Serif 4',serif; font-weight:700; font-style:italic;
+    font-size:0.9rem; color:var(--stamp);
+    background:rgba(178,58,46,0.12);
+    flex:0 0 auto;
+  }
+  .status-pill{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--cream-soft);
+    border:1px solid rgba(240,233,214,0.22);
+    border-radius:999px;
+    padding:7px 14px 7px 11px;
+  }
+  .status-pill .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--stamp);
+    box-shadow:0 0 0 0 rgba(178,58,46,0.6);
+    animation: pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(178,58,46,0.55); }
+    70%{ box-shadow:0 0 0 8px rgba(178,58,46,0); }
+    100%{ box-shadow:0 0 0 0 rgba(178,58,46,0); }
+  }
+
+  /* ---------- hero copy ---------- */
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:var(--cream-soft);
+    margin:0 0 16px;
+  }
+  .kicker::before{ content:"— "; color:var(--stamp); }
+  h1.headline{
+    font-family:'Source Serif 4', serif;
+    font-style:italic;
+    font-weight:500;
+    font-size: clamp(1.7rem, 4.6vw, 2.9rem);
+    line-height:1.18;
+    letter-spacing:-0.01em;
+    color:var(--cream);
+    max-width:20ch;
+    margin: 0 0 clamp(30px, 6vw, 52px);
+  }
+  h1.headline em{
+    font-style:italic; color:#F7F1E1;
+  }
+
+  /* ---------- screening room ---------- */
+  .screening-room{
+    display:flex; align-items:stretch; gap:0;
+    filter: drop-shadow(0 35px 70px -30px rgba(0,0,0,0.75));
+  }
+  .sprockets{
+    flex:0 0 18px;
+    background-image: radial-gradient(circle 3.5px at 9px center, rgba(0,0,0,0.5) 97%, transparent);
+    background-repeat: repeat-y;
+    background-size: 100% 24px;
+    background-position: 0 4px;
+    border-radius:6px;
+    background-color: rgba(0,0,0,0.18);
+  }
+  @media (max-width: 620px){
+    .sprockets{ display:none; }
+  }
+
+  .frame{
+    position:relative;
+    flex:1 1 auto;
+    aspect-ratio: 16/9;
+    background:#0E1420;
+    border-radius: 4px;
+    overflow:hidden;
+    box-shadow: 0 0 0 1px rgba(240,233,214,0.12), 0 0 0 8px rgba(14,20,32,0.55);
+  }
+  video{
+    width:100%; height:100%;
+    display:block;
+    object-fit:cover;
+    background:#0E1420;
+  }
+
+  /* ---------- title card overlay ---------- */
+  .titlecard{
+    position:absolute; inset:0; z-index:2;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:16px;
+    text-align:center;
+    background:
+      radial-gradient(600px 300px at 50% 40%, rgba(178,58,46,0.14), transparent 65%),
+      linear-gradient(180deg, #131b2b 0%, #0c1120 100%);
+    padding: 24px;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  .titlecard.is-hidden{
+    opacity:0; visibility:hidden; pointer-events:none;
+  }
+  .titlecard-kicker{
+    margin:0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:clamp(0.62rem, 1.6vw, 0.72rem);
+    letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--cream-soft);
+  }
+  .titlecard h2{
+    margin:0;
+    font-family:'Source Serif 4', serif;
+    font-weight:600;
+    font-size:clamp(1.4rem, 5vw, 2.3rem);
+    letter-spacing:-0.01em;
+    color:var(--cream);
+  }
+  .play-btn{
+    width:64px; height:64px;
+    border-radius:50%;
+    border:1.5px solid var(--stamp);
+    background:rgba(178,58,46,0.16);
+    color:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  }
+  .play-btn:hover{
+    background:var(--stamp);
+    transform:scale(1.06);
+    box-shadow: 0 8px 26px -8px rgba(178,58,46,0.7);
+  }
+  .play-btn svg{ width:22px; height:22px; margin-left:3px; }
+  .titlecard-meta{
+    margin:2px 0 0;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.08em;
+    color:var(--cream-soft);
+  }
+  .titlecard-error{
+    margin-top:2px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem; letter-spacing:0.04em;
+    color:#E8B9A8;
+    max-width:34ch;
+    display:none;
+  }
+  .titlecard.has-error .titlecard-error{ display:block; }
+  .titlecard.has-error .titlecard-meta{ display:none; }
+
+  /* ---------- controls ---------- */
+  .controls{
+    position:absolute; left:0; right:0; bottom:0;
+    display:flex; align-items:center; gap:12px;
+    padding: 10px 14px;
+    background: linear-gradient(0deg, rgba(6,9,16,0.88) 0%, rgba(6,9,16,0) 100%);
+    opacity:0; transform:translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .frame.is-playing .controls,
+  .frame.is-playing:hover .controls,
+  .frame.is-playing:focus-within .controls,
+  .frame:hover .controls,
+  .frame:focus-within .controls{
+    opacity:1; transform:translateY(0);
+  }
+  .frame.is-playing .controls{ opacity:0.92; }
+  .ctrl-btn{
+    flex:0 0 auto;
+    width:30px; height:30px;
+    border:none; background:transparent; color:var(--cream);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; border-radius:6px;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .ctrl-btn:hover{ color:#fff; background:rgba(255,255,255,0.1); }
+  .ctrl-btn svg{ width:17px; height:17px; }
+
+  .scrubber{
+    flex:1 1 auto;
+    position:relative;
+    height:16px;
+    display:flex; align-items:center;
+    cursor:pointer;
+  }
+  .scrubber-track{
+    width:100%; height:3px; border-radius:2px;
+    background:rgba(240,233,214,0.25);
+    position:relative;
+    overflow:visible;
+  }
+  .scrubber-fill{
+    position:absolute; left:0; top:0; bottom:0;
+    width:0%;
+    background:var(--stamp);
+    border-radius:2px;
+  }
+  .scrubber-handle{
+    position:absolute; top:50%; left:0%;
+    width:11px; height:11px; border-radius:50%;
+    background:var(--cream);
+    transform:translate(-50%,-50%);
+    box-shadow:0 0 0 3px rgba(178,58,46,0.35);
+  }
+
+  .time{
+    flex:0 0 auto;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem; letter-spacing:0.02em;
+    color:var(--cream-soft);
+    font-variant-numeric: tabular-nums;
+    white-space:nowrap;
+  }
+
+  /* ---------- credit + CTAs ---------- */
+  .credit{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem; letter-spacing:0.02em; line-height:1.6;
+    color:var(--cream-soft);
+    max-width:56ch;
+    margin: clamp(22px, 4vw, 30px) 0 0;
+  }
+
+  .cta-row{
+    display:flex; flex-wrap:wrap; gap:14px;
+    margin-top: clamp(30px, 6vw, 46px);
+  }
+  .ticket{
+    position:relative;
+    flex:1 1 220px;
+    display:flex; flex-direction:column; gap:4px;
+    padding: 18px 22px;
+    border-radius: 8px;
+    text-decoration:none;
+    font-family:'IBM Plex Mono', monospace;
+    overflow:hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .ticket::after{
+    content:"";
+    position:absolute; top:0; bottom:0; right:56px;
+    width:1px;
+    background-image: linear-gradient(rgba(0,0,0,0.18) 50%, transparent 0%);
+    background-size: 1px 8px;
+    background-repeat: repeat-y;
+  }
+  .ticket:hover{ transform:translateY(-2px); }
+  .ticket-eyebrow{
+    font-size:0.62rem; letter-spacing:0.16em; text-transform:uppercase;
+    opacity:0.75;
+  }
+  .ticket-label{
+    font-family:'Source Serif 4', serif;
+    font-size:1.18rem; font-weight:600; letter-spacing:-0.01em;
+  }
+  .ticket-arrow{
+    position:absolute; right:20px; top:50%; transform:translateY(-50%);
+    width:16px; height:16px; opacity:0.8;
+  }
+  .ticket-primary{
+    background:var(--paper);
+    color:var(--ink);
+    box-shadow: 0 18px 34px -18px rgba(0,0,0,0.55);
+  }
+  .ticket-primary .ticket-eyebrow{ color:var(--stamp); opacity:1; }
+  .ticket-primary:hover{ box-shadow: 0 22px 40px -16px rgba(0,0,0,0.6); }
+  .ticket-secondary{
+    background:rgba(240,233,214,0.06);
+    color:var(--cream);
+    border:1px solid rgba(240,233,214,0.22);
+  }
+  .ticket-secondary:hover{ background:rgba(240,233,214,0.1); border-color:rgba(240,233,214,0.34); }
+
+  footer.foot{
+    margin-top:clamp(40px,8vw,64px);
+    padding-top:20px;
+    border-top:1px solid rgba(240,233,214,0.14);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem; letter-spacing:0.04em;
+    color:rgba(240,233,214,0.45);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="topbar">
+    <span class="wordmark"><span class="seal">N</span> Notebook</span>
+    <span class="status-pill"><span class="dot"></span> Now Screening</span>
+  </div>
+
+  <p class="kicker">NITER Campus Digital Network</p>
+  <h1 class="headline">“One campus, one feed.”</h1>
+
+  <div class="screening-room">
+    <div class="sprockets" aria-hidden="true"></div>
+
+    <div class="frame" id="frame">
+      <video id="reel" playsinline preload="metadata">
+        <source src="./NITER_Campus_Digital_Network.mp4" type="video/mp4">
+        Your browser doesn't support embedded video.
+      </video>
+
+      <div class="titlecard" id="titlecard">
+        <p class="titlecard-kicker">Notebook presents</p>
+        <h2>The Walkthrough</h2>
+        <button class="play-btn" id="playBtn" aria-label="Play the walkthrough">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8V4z"/></svg>
+        </button>
+        <p class="titlecard-meta" id="runtimeLabel">Loading runtime…</p>
+        <p class="titlecard-error" id="errorLabel">Reel not found — add <strong>NITER_Campus_Digital_Network.mp4</strong> next to this file, then reload.</p>
+      </div>
+
+      <div class="controls" id="controls">
+        <button class="ctrl-btn" id="toggleBtn" aria-label="Play">
+          <svg id="iconPlay" viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l15 8-15 8V4z"/></svg>
+          <svg id="iconPause" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+        </button>
+
+        <div class="scrubber" id="scrubber" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div class="scrubber-track">
+            <div class="scrubber-fill" id="scrubberFill"></div>
+            <div class="scrubber-handle" id="scrubberHandle"></div>
+          </div>
+        </div>
+
+        <span class="time" id="timeLabel">0:00 / 0:00</span>
+
+        <button class="ctrl-btn" id="muteBtn" aria-label="Mute">
+          <svg id="iconSound" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4zm11.5 3a3.5 3.5 0 0 0-2-3.16v6.32a3.5 3.5 0 0 0 2-3.16z"/></svg>
+          <svg id="iconMute" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M4 9v6h4l5 5V4L8 9H4zm11.7-2.3l1.4 1.4L15.4 10l1.7 1.7-1.4 1.4L14 11.4l-1.7 1.7-1.4-1.4L12.6 10l-1.7-1.7 1.4-1.4L14 8.6z"/></svg>
+        </button>
+
+        <button class="ctrl-btn" id="fullscreenBtn" aria-label="Fullscreen">
+          <svg id="iconExpand" viewBox="0 0 24 24" fill="currentColor"><path d="M4 9V4h5v2H6v3H4zm0 6v5h5v-2H6v-3H4zM15 4h5v5h-2V6h-3V4zm5 11v5h-5v-2h3v-3h2z"/></svg>
+          <svg id="iconCollapse" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M9 4v5H4v2h7V4H9zm6 0v7h7V9h-5V4h-2zM4 15v2h5v5h2v-7H4zm11 0v7h2v-5h5v-2h-7z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="sprockets" aria-hidden="true"></div>
+  </div>
+
+  <p class="credit">NITER Campus Digital Network — a Progressive Web App unifying Health, Transport, Academic and Logistics hubs for NITER students. Built with vanilla JS and Supabase.</p>
+
+  <div class="cta-row">
+    <a class="ticket ticket-primary" href="https://niter.pages.dev" target="_blank" rel="noopener">
+      <span class="ticket-eyebrow">Enter</span>
+      <span class="ticket-label">Open the App</span>
+      <svg class="ticket-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+    </a>
+    <a class="ticket ticket-secondary" href="https://notebook-docs.pages.dev" target="_blank" rel="noopener">
+      <span class="ticket-eyebrow">Reference</span>
+      <span class="ticket-label">Read the Docs</span>
+      <svg class="ticket-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M9 7h8v8"/></svg>
+    </a>
+  </div>
+
+  <footer class="foot">
+    <span>Notebook / NITER</span>
+    <span>Handle with care</span>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const video = document.getElementById('reel');
+  const frame = document.getElementById('frame');
+  const titlecard = document.getElementById('titlecard');
+  const playBtn = document.getElementById('playBtn');
+  const toggleBtn = document.getElementById('toggleBtn');
+  const iconPlay = document.getElementById('iconPlay');
+  const iconPause = document.getElementById('iconPause');
+  const scrubber = document.getElementById('scrubber');
+  const scrubberFill = document.getElementById('scrubberFill');
+  const scrubberHandle = document.getElementById('scrubberHandle');
+  const timeLabel = document.getElementById('timeLabel');
+  const muteBtn = document.getElementById('muteBtn');
+  const iconSound = document.getElementById('iconSound');
+  const iconMute = document.getElementById('iconMute');
+  const fullscreenBtn = document.getElementById('fullscreenBtn');
+  const iconExpand = document.getElementById('iconExpand');
+  const iconCollapse = document.getElementById('iconCollapse');
+  const runtimeLabel = document.getElementById('runtimeLabel');
+
+  function fmt(s){
+    if (!isFinite(s) || s < 0) s = 0;
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2,'0');
+  }
+
+  function startPlayback(){
+    if (video.ended) video.currentTime = 0;
+    video.play().catch(function(){ /* autoplay/permission errors are fine here — user-initiated */ });
+  }
+
+  playBtn.addEventListener('click', function(){
+    titlecard.classList.add('is-hidden');
+    startPlayback();
+  });
+
+  video.addEventListener('loadedmetadata', function(){
+    runtimeLabel.textContent = 'Runtime · ' + fmt(video.duration);
+    timeLabel.textContent = fmt(0) + ' / ' + fmt(video.duration);
+  });
+
+  video.addEventListener('error', function(){
+    titlecard.classList.add('has-error');
+    titlecard.classList.remove('is-hidden');
+    setPlayingUI(false);
+    playBtn.setAttribute('disabled', 'true');
+    playBtn.style.opacity = '0.4';
+    playBtn.style.cursor = 'not-allowed';
+    toggleBtn.setAttribute('disabled', 'true');
+  });
+
+  function setPlayingUI(isPlaying){
+    frame.classList.toggle('is-playing', isPlaying);
+    iconPlay.style.display = isPlaying ? 'none' : 'block';
+    iconPause.style.display = isPlaying ? 'block' : 'none';
+    toggleBtn.setAttribute('aria-label', isPlaying ? 'Pause' : 'Play');
+  }
+
+  video.addEventListener('play', function(){ setPlayingUI(true); });
+  video.addEventListener('pause', function(){ setPlayingUI(false); });
+
+  video.addEventListener('ended', function(){
+    setPlayingUI(false);
+    titlecard.classList.remove('is-hidden');
+    document.querySelector('.titlecard-kicker').textContent = 'Screening complete';
+    document.querySelector('.titlecard h2').textContent = 'Watch Again';
+  });
+
+  toggleBtn.addEventListener('click', togglePlay);
+
+  video.addEventListener('timeupdate', function(){
+    if (!video.duration) return;
+    const pct = (video.currentTime / video.duration) * 100;
+    scrubberFill.style.width = pct + '%';
+    scrubberHandle.style.left = pct + '%';
+    scrubber.setAttribute('aria-valuenow', Math.round(pct));
+    timeLabel.textContent = fmt(video.currentTime) + ' / ' + fmt(video.duration);
+  });
+
+  function seekFromEvent(clientX){
+    const rect = scrubber.getBoundingClientRect();
+    const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+    if (video.duration) video.currentTime = pct * video.duration;
+  }
+
+  let scrubbing = false;
+  scrubber.addEventListener('pointerdown', function(e){
+    scrubbing = true;
+    seekFromEvent(e.clientX);
+    scrubber.setPointerCapture(e.pointerId);
+  });
+  scrubber.addEventListener('pointermove', function(e){
+    if (scrubbing) seekFromEvent(e.clientX);
+  });
+  scrubber.addEventListener('pointerup', function(){ scrubbing = false; });
+
+  scrubber.addEventListener('keydown', function(e){
+    if (!video.duration) return;
+    const step = (e.key === 'ArrowRight' || e.key === 'ArrowUp') ? 5
+               : (e.key === 'ArrowLeft' || e.key === 'ArrowDown') ? -5
+               : 0;
+    if (step === 0) return;
+    e.preventDefault();
+    video.currentTime = Math.min(video.duration, Math.max(0, video.currentTime + step));
+  });
+
+  muteBtn.addEventListener('click', function(){
+    video.muted = !video.muted;
+    iconSound.style.display = video.muted ? 'none' : 'block';
+    iconMute.style.display = video.muted ? 'block' : 'none';
+    muteBtn.setAttribute('aria-label', video.muted ? 'Unmute' : 'Mute');
+  });
+
+  fullscreenBtn.addEventListener('click', function(){
+    const isFullscreen = document.fullscreenElement || document.webkitFullscreenElement;
+    if (isFullscreen) {
+      if (document.exitFullscreen) document.exitFullscreen();
+      else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+    } else if (video.webkitEnterFullscreen) {
+      video.webkitEnterFullscreen(); // iOS Safari (no native exit control needed there)
+    } else if (frame.requestFullscreen) {
+      frame.requestFullscreen();
+    } else if (frame.webkitRequestFullscreen) {
+      frame.webkitRequestFullscreen();
+    }
+  });
+
+  function syncFullscreenIcon(){
+    const isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement);
+    iconExpand.style.display = isFullscreen ? 'none' : 'block';
+    iconCollapse.style.display = isFullscreen ? 'block' : 'none';
+    fullscreenBtn.setAttribute('aria-label', isFullscreen ? 'Exit fullscreen' : 'Fullscreen');
+  }
+  document.addEventListener('fullscreenchange', syncFullscreenIcon);
+  document.addEventListener('webkitfullscreenchange', syncFullscreenIcon);
+
+  function togglePlay(){
+    if (playBtn.hasAttribute('disabled')) return; // reel failed to load
+    titlecard.classList.add('is-hidden');
+    if (video.paused) startPlayback(); else video.pause();
+  }
+
+  video.addEventListener('click', togglePlay);
+
+  document.addEventListener('keydown', function(e){
+    if (document.activeElement && ['INPUT','TEXTAREA'].includes(document.activeElement.tagName)) return;
+    if (e.code === 'Space') {
+      e.preventDefault();
+      togglePlay();
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Strict Content Security Policy (CSP) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https: http:; media-src 'self' data: blob: https:; connect-src 'self' https: wss: http: ws:; object-src 'none'; base-uri 'self'; form-action 'self';">
+
+    <!-- Primary SEO Meta Tags -->
+    <title>Notebook — NITER Campus Digital Network</title>
+    <meta name="title" content="Notebook — NITER Campus Digital Network">
+    <meta name="description" content="Official digital campus network and student portal for NITER. Connect with classmates, share posts, view academic routines, track transport schedules, and access campus logistics.">
+    <meta name="keywords" content="NITER, Notebook, NITER Campus Network, Student Portal, Classmates, Routine, Transport Schedule, Campus Feed, NITER Social">
+    <meta name="author" content="Notebook Campus Team">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="https://notebook.niter.edu.bd">
+
+    <!-- Theme & PWA Mobile Web App Meta Tags -->
+    <meta name="theme-color" content="#FAFAFC" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#12141D" media="(prefers-color-scheme: dark)">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Notebook">
+    <meta name="application-name" content="Notebook Campus Network">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- Favicon & Touch Icons -->
+    <link rel="icon" href="/favicon_io/favicon.ico" sizes="any">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    </noscript>
+
+    <!-- Master CSS Bundle -->
+    <link rel="stylesheet" href="/css/main.css">
+    
+    <!-- Lucide Icons with Universal Object Helper -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+      (function() {
+        if (typeof window !== "undefined" && window.lucide) {
+          var origCreate = window.lucide.createIcons;
+          window.lucide.createIcons = function(options) {
+            return origCreate(Object.assign({ icons: window.lucide.icons }, options || {}));
+          };
+        }
+      })();
+    </script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Open Graph / Social Sharing -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://notebook.niter.edu.bd/">
+    <meta property="og:title" content="Notebook — NITER Campus Digital Network">
+    <meta property="og:description" content="Official digital campus network and student portal for NITER. Connect with classmates, share posts, view academic routines, track transport schedules, and access campus logistics.">
+    <meta property="og:image" content="https://notebook.niter.edu.bd/og-image.jpg">
+    <meta property="og:image:url" content="https://notebook.niter.edu.bd/og-image.jpg">
+    <meta property="og:image:secure_url" content="https://notebook.niter.edu.bd/og-image.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Notebook">
+
+    <!-- Twitter / X Sharing -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Notebook — NITER Campus Digital Network">
+    <meta name="twitter:description" content="Official digital campus network and student portal for NITER. Connect with classmates, share posts, view academic routines, track transport schedules, and access campus logistics.">
+    <meta name="twitter:image" content="https://notebook.niter.edu.bd/og-image.jpg">
+
+</head>
+<body>
+
+    <!-- MODERN MINIMAL CLEAN LOADING SCREEN -->
+    <div id="app-loader" class="app-loader">
+        <div class="app-loader-content">
+            <div class="app-loader-logo">
+                <span class="app-loader-n">N</span>
+                <div class="app-loader-pulse"></div>
+            </div>
+            <div class="app-loader-progress-track">
+                <div class="app-loader-progress-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Backdrop Overlay for Mobile Drawers & Modals -->
+    <div id="overlay" class="overlay"></div>
+
+    <!-- FULLSCREEN MEDIA LIGHTBOX MODAL -->
+    <div id="image-lightbox-modal" class="lightbox-modal" aria-hidden="true" inert>
+        <button class="lightbox-close-btn" id="lightbox-close-btn" aria-label="Close full screen view">
+            <i data-lucide="x"></i>
+        </button>
+        <div class="lightbox-content">
+            <img id="lightbox-img" alt="Full screen preview" style="display: none;">
+            <video id="lightbox-video" controls playsinline style="display: none;"></video>
+        </div>
+    </div>
+
+    <!-- ACTIVITY / FEELING SELECTOR MODAL -->
+    <div id="activity-modal" class="activity-modal" aria-hidden="true" inert>
+        <div class="activity-modal-content">
+            <div class="activity-modal-header">
+                <h2 class="modal-title">How are you feeling or what are you doing?</h2>
+                <button class="activity-close-btn" id="activity-close-btn" aria-label="Close activity selector"><i data-lucide="x"></i></button>
+            </div>
+
+            <!-- TAB HEADERS -->
+            <div class="activity-tabs">
+                <button type="button" id="tab-feelings" class="activity-tab active">😊 Feelings</button>
+                <button type="button" id="tab-activities" class="activity-tab">🎧 Activities</button>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="activity-search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="activity-search-input" placeholder="Search feeling or activity...">
+            </div>
+
+            <!-- FEELINGS GRID PANEL -->
+            <div id="panel-feelings" class="activity-panel active">
+                <div class="activity-grid" id="feelings-grid"></div>
+            </div>
+
+            <!-- ACTIVITIES LIST PANEL -->
+            <div id="panel-activities" class="activity-panel">
+                <!-- CUSTOM DETAIL INPUT ROW (Shown when an activity like "Listening to" is clicked) -->
+                <div id="activity-detail-wrapper" class="activity-detail-wrapper" style="display: none;">
+                    <div class="detail-header">
+                        <button type="button" class="btn-back-activity" id="btn-back-activity"><i data-lucide="arrow-left"></i> <span>Back</span></button>
+                        <span id="selected-activity-prefix" class="selected-prefix">Listening to...</span>
+                    </div>
+                    <div class="detail-input-row">
+                        <input type="text" id="activity-detail-input" placeholder="e.g. Lofi Beats, Course Lecture..." class="activity-detail-input">
+                        <button type="button" id="btn-save-activity-detail" class="btn-save-detail">Done</button>
+                    </div>
+                </div>
+
+                <div class="activity-list" id="activities-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAG FRIENDS SELECTOR MODAL -->
+    <div id="tag-friends-modal" class="activity-modal" aria-hidden="true" inert>
+        <div class="activity-modal-content">
+            <div class="activity-modal-header">
+                <h2 class="modal-title">Tag Friends in Post</h2>
+                <button class="activity-close-btn" id="tag-friends-close-btn" aria-label="Close tag friends selector"><i data-lucide="x"></i></button>
+            </div>
+
+            <!-- SEARCH BAR -->
+            <div class="activity-search-box">
+                <i data-lucide="search" class="search-icon"></i>
+                <input type="text" id="tag-friends-search-input" placeholder="Search friends to tag...">
+            </div>
+
+            <!-- FRIENDS LIST PANEL -->
+            <div class="tag-friends-panel">
+                <div class="tag-friends-list" id="tag-friends-list"></div>
+            </div>
+
+            <!-- FOOTER WITH DONE BUTTON -->
+            <div class="tag-friends-footer">
+                <span id="tagged-count-badge" class="tagged-count-badge">0 friends selected</span>
+                <button type="button" id="btn-save-tag-friends" class="btn-save-tag-friends">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL (LOGIN & SIGNUP) -->
+    <div id="auth-modal" class="auth-modal" aria-hidden="true" inert>
+        <div class="auth-modal-content">
+            <button class="auth-close-btn" id="auth-close-btn"><i data-lucide="x"></i></button>
+            
+            <div class="auth-tabs">
+                <button id="tab-login" class="auth-tab active">Log In</button>
+                <button id="tab-signup" class="auth-tab">Sign Up</button>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <form id="form-login" class="auth-form active">
+                <h2 class="auth-title">Welcome Back to Notebook</h2>
+                <p class="auth-sub">Enter your email and password to access your account.</p>
+
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="login_email" placeholder="student@niter.edu.bd" autocomplete="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="login_password" placeholder="••••••••" autocomplete="current-password" required>
+                </div>
+
+                <div class="forgot-password-row">
+                    <button type="button" id="btn-forgot-password-link" class="forgot-password-btn">Forgot Password?</button>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="btn-login-submit">Log In</button>
+            </form>
+
+            <!-- RESET PASSWORD FORM -->
+            <form id="form-reset" class="auth-form">
+                <h2 class="auth-title">Reset Password</h2>
+                <p class="auth-sub">Enter your account email address to receive a password reset link.</p>
+
+                <div class="form-group">
+                    <label for="reset-email">Email Address</label>
+                    <input type="email" id="reset-email" name="reset_email" placeholder="student@niter.edu.bd" autocomplete="username" required>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="btn-reset-submit">Send Reset Link</button>
+                <button type="button" class="btn-auth-back" id="btn-reset-back">Back to Log In</button>
+            </form>
+
+            <!-- SIGNUP FORM -->
+            <form id="form-signup" class="auth-form">
+                <h2 class="auth-title">Join Notebook Campus</h2>
+                <p class="auth-sub">Create an account using your campus details.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="signup-firstname">First Name</label>
+                        <input type="text" id="signup-firstname" name="signup_firstname" placeholder="Samin" autocomplete="given-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-lastname">Last Name</label>
+                        <input type="text" id="signup-lastname" name="signup_lastname" placeholder="Yeasar" autocomplete="family-name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-studentid">Student ID (NITER Format)</label>
+                    <input type="text" id="signup-studentid" name="signup_studentid" placeholder="e.g. CS 2607033" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-email">Email Address</label>
+                    <input type="email" id="signup-email" name="signup_email" placeholder="student@niter.edu.bd" autocomplete="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" name="signup_password" placeholder="Min. 6 characters" minlength="6" autocomplete="new-password" required>
+                </div>
+
+                <button type="submit" class="btn-auth-submit" id="btn-signup-submit">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 1. TOP NAVIGATION -->
+    <header class="top-nav">
+        <div class="nav-left" id="brand-area" role="button" tabindex="0" aria-label="Open Navigation Drawer">
+            <div class="logo">
+                <span>N</span>
+            </div>
+            <div class="brand-text">
+                <span class="app-name">Notebook</span>
+            </div>
+        </div>
+
+        <nav class="nav-center desktop-only" aria-label="Main Navigation">
+            <button class="module-btn active" data-module="home" aria-current="page">
+                <i data-lucide="home"></i> <span>Home</span>
+            </button>
+            <button class="module-btn" data-module="health">
+                <i data-lucide="heart-pulse"></i> <span>Health</span>
+            </button>
+            <button class="module-btn" data-module="transport">
+                <i data-lucide="bus"></i> <span>Transport</span>
+            </button>
+            <button class="module-btn" data-module="academic">
+                <i data-lucide="book-open"></i> <span>Academic</span>
+            </button>
+            <button class="module-btn" data-module="logistics">
+                <i data-lucide="package"></i> <span>Logistics</span>
+            </button>
+        </nav>
+
+        <div class="nav-right-actions">
+            <button type="button" class="top-nav-bell-btn notif-trigger" id="top-nav-bell" title="Notifications" aria-label="Notifications">
+                <i data-lucide="bell"></i>
+                <span class="nav-notif-badge" style="display: none;">0</span>
+            </button>
+            <div class="nav-right" id="user-area" role="button" tabindex="0" aria-label="Open User Account Menu">
+                <div class="user-info desktop-only">
+                    <p class="user-name" id="nav-user-name">Guest User</p>
+                    <p class="user-id" id="nav-user-id">Click to Log In</p>
+                </div>
+                <div class="avatar">
+                    <img id="nav-avatar-img" src="" alt="User Avatar">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="layout-wrapper">
+        <!-- 2. LEFT SIDEBAR -->
+        <aside id="left-sidebar" class="sidebar left-sidebar">
+            <div class="sidebar-header mobile-only">
+                <span>Navigation</span>
+                <button class="close-btn" id="left-close-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
+            </div>
+            <div id="dynamic-links" class="sidebar-links"></div>
+        </aside>
+
+        <!-- 3. MAIN DASHBOARD / SOCIAL FEED CONTENT -->
+        <main class="main-content">
+            <div class="content-inner" id="content-inner">
+                <header class="content-header">
+                    <div class="header-top-row">
+                        <div class="eyebrow-container">
+                            <p class="content-eyebrow" id="page-eyebrow">NOTEBOOK</p>
+                            <span class="badge" id="module-badge">HOME</span>
+                        </div>
+                        
+                        <!-- Metric Ribbon Header -->
+                        <div class="header-metrics" id="header-metrics">
+                            <div class="metric-item"><span class="metric-label">Feed</span><span class="metric-value">Active</span></div>
+                            <div class="metric-item"><span class="metric-label">Campus</span><span class="metric-value">NITER</span></div>
+                        </div>
+                    </div>
+
+                    <h1 id="page-title" class="content-title">Campus Social Feed</h1>
+                    <p class="content-sub" id="page-sub">Connect with students, share updates, and see what's happening around campus.</p>
+                </header>
+
+                <!-- MODULE QUICK CARDS -->
+                <div class="cards-section" id="cards-section">
+                    <div class="cards-section-header">
+                        <h2 class="section-subtitle" id="cards-subtitle">Quick Tools & Services</h2>
+                        <button type="button" class="btn-toggle-cards" id="toggle-cards-btn">
+                            <i data-lucide="eye-off" id="toggle-cards-icon"></i>
+                            <span id="toggle-cards-text">Hide Shortcuts</span>
+                        </button>
+                    </div>
+                    
+                    <div class="cards-grid-wrapper" id="cards-grid-wrapper">
+                        <div class="content-grid" id="content-grid">
+                            <div class="card skeleton"></div>
+                            <div class="card skeleton"></div>
+                            <div class="card skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CREATE NEW POST BOX (HOME PAGE ONLY) -->
+                <section class="create-post-card" id="create-post-card">
+                    <div class="create-post-header">
+                        <img id="post-user-avatar" src="" alt="User" class="post-avatar">
+                        <textarea id="post-input" placeholder="What's on your mind? Share with campus..."></textarea>
+                    </div>
+
+                    <!-- CHIPS PREVIEW WRAPPER (ACTIVITY & TAGGED FRIENDS) -->
+                    <div class="create-post-chips-wrapper" id="create-post-chips-wrapper">
+                        <!-- SELECTED ACTIVITY CHIP DISPLAY -->
+                        <div id="activity-chip-container" class="activity-chip-container" style="display: none;">
+                            <span class="activity-chip-badge">
+                                <span class="activity-chip-icon">✨</span>
+                                <span class="activity-chip-text" id="activity-chip-text">is feeling 😊 Happy</span>
+                            </span>
+                            <button type="button" class="btn-remove-activity" id="btn-remove-activity" title="Remove activity">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+
+                        <!-- TAGGED FRIENDS CHIP DISPLAY -->
+                        <div id="tagged-friends-chip-container" class="tagged-friends-chip-container" style="display: none;">
+                            <span class="tagged-friends-chip-badge">
+                                <i data-lucide="user-check"></i>
+                                <span id="tagged-friends-chip-text">With 0 friends</span>
+                            </span>
+                            <button type="button" class="btn-remove-tagged-friends" id="btn-remove-tagged-friends" title="Remove tagged friends">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- MEDIA ATTACHMENT PREVIEW CONTAINER -->
+                    <div id="media-preview-container" class="media-preview-container" style="display: none;">
+                        <div class="preview-wrapper">
+                            <img id="media-preview-img" alt="Preview" class="preview-media" style="display: none;">
+                            <video id="media-preview-video" controls class="preview-media" style="display: none;"></video>
+                            <button type="button" class="btn-remove-media" id="btn-remove-media" title="Remove attachment">
+                                <i data-lucide="x"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="create-post-actions">
+                        <div class="post-options">
+                            <!-- Hidden Gallery File Selector -->
+                            <input type="file" id="post-file-input" accept="image/*,video/*" style="display: none;">
+                            
+                            <button type="button" class="post-option-btn" id="btn-option-media">
+                                <i data-lucide="image" class="text-photo"></i>
+                                <span>Media</span>
+                            </button>
+                            <button type="button" class="post-option-btn" id="btn-option-friends">
+                                <i data-lucide="user-plus" class="text-tag"></i>
+                                <span>Friends</span>
+                            </button>
+                            <button type="button" class="post-option-btn" id="btn-option-activity">
+                                <i data-lucide="smile" class="text-feeling"></i>
+                                <span>Activity</span>
+                            </button>
+                        </div>
+
+                        <!-- CATEGORY DROPDOWN -->
+                        <div class="post-submit-area">
+                            <div class="custom-dropdown" id="post-category-dropdown">
+                                <button type="button" class="dropdown-trigger" id="dropdown-trigger-btn">
+                                    <span class="dropdown-selected-option" id="dropdown-selected-text">📢 General Feed</span>
+                                    <i data-lucide="chevron-down" class="dropdown-arrow"></i>
+                                </button>
+                                <div class="dropdown-menu" id="dropdown-menu">
+                                    <button type="button" class="dropdown-item active" data-value="general" data-label="📢 General Feed">
+                                        <span>📢 General Feed</span>
+                                    </button>
+                                    <button type="button" class="dropdown-item" data-value="health" data-label="❤️ Health Service">
+                                        <span>❤️ Health Service</span>
+                                    </button>
+                                    <button type="button" class="dropdown-item" data-value="transport" data-label="🚌 Transport">
+                                        <span>🚌 Transport</span>
+                                    </button>
+                                    <button type="button" class="dropdown-item" data-value="academic" data-label="📚 Academic">
+                                        <span>📚 Academic</span>
+                                    </button>
+                                    <button type="button" class="dropdown-item" data-value="logistics" data-label="📦 Logistics">
+                                        <span>📦 Logistics</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button class="btn-publish" id="btn-publish">
+                                <i data-lucide="send"></i> <span>Post</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- FEED SECTION HEADER -->
+                <div class="feed-section-header">
+                    <h2 class="feed-title" id="feed-title">Campus Feed Updates</h2>
+                    <span class="feed-filter-tag" id="feed-filter-tag"><span class="realtime-live-dot"></span> All Campus</span>
+                </div>
+
+                <!-- SOCIAL POSTS FEED CONTAINER -->
+                <div class="posts-feed" id="posts-feed"></div>
+            </div>
+        </main>
+
+        <!-- 4. RIGHT SIDEBAR -->
+        <aside id="right-sidebar" class="sidebar right-sidebar">
+            <div class="sidebar-header mobile-only">
+                <span>Account</span>
+                <button class="close-btn" id="right-close-btn" aria-label="Close menu"><i data-lucide="x"></i></button>
+            </div>
+            <div class="sidebar-links" id="static-right-links">
+                
+                <a href="#profile" class="menu-item-btn direct-link" id="link-my-profile">
+                    <div class="menu-item-left"><i data-lucide="user"></i> <span>My Profile</span></div>
+                </a>
+
+                <a href="#settings" class="menu-item-btn direct-link" id="link-settings">
+                    <div class="menu-item-left"><i data-lucide="settings"></i> <span>Settings</span></div>
+                </a>
+
+
+                <a href="#privacy" class="menu-item-btn direct-link" id="link-privacy">
+                    <div class="menu-item-left"><i data-lucide="shield"></i> <span>Privacy & Security</span></div>
+                </a>
+                <a href="#support" class="menu-item-btn direct-link" id="link-support-desk">
+                    <div class="menu-item-left"><i data-lucide="headset"></i> <span>Support Desk</span></div>
+                </a>
+                <a href="#report" class="menu-item-btn direct-link" id="link-report-center">
+                    <div class="menu-item-left"><i data-lucide="flag"></i> <span>Report Center</span></div>
+                </a>
+                
+                <button id="btn-auth-action" class="menu-item-btn direct-link text-accent">
+                    <div class="menu-item-left"><i data-lucide="log-in" id="auth-action-icon"></i> <span id="auth-action-text">Login / Sign Up</span></div>
+                </button>
+
+            </div>
+        </aside>
+    </div>
+
+    <!-- 5. BOTTOM NAVIGATION (MOBILE ONLY) -->
+    <footer class="bottom-nav mobile-only">
+        <button class="module-btn active" data-module="home" aria-current="page">
+            <i data-lucide="home"></i> <span>Home</span>
+        </button>
+        <button class="module-btn" data-module="health">
+            <i data-lucide="heart-pulse"></i> <span>Health</span>
+        </button>
+        <button class="module-btn" data-module="transport">
+            <i data-lucide="bus"></i> <span>Transport</span>
+        </button>
+        <button class="module-btn" data-module="academic">
+            <i data-lucide="book-open"></i> <span>Academic</span>
+        </button>
+        <button class="module-btn" data-module="logistics">
+            <i data-lucide="package"></i> <span>Logistics</span>
+        </button>
+    </footer>
+
+    <!-- Main Module Script -->
+    <script type="module" src="/js/main.js"></script>
+</body>
+</html>

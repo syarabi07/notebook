@@ -1,0 +1,235 @@
+/* Master Animations & Ultra-Smooth Motion System */
+
+/* 1. MODERN MINIMAL CLEAN LOADING SCREEN */
+.app-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.45s ease;
+    will-change: opacity, transform;
+}
+
+.app-loader.loaded {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(1.02);
+    pointer-events: none;
+}
+
+.app-loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.app-loader-logo {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    background: var(--ink);
+    color: var(--surface);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 600;
+    font-size: 1.75rem;
+    box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.16), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+    margin-bottom: 2rem;
+    animation: loader-logo-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes loader-logo-pulse {
+    0%, 100% { transform: scale(1); opacity: 0.96; }
+    50% { transform: scale(1.03); opacity: 1; }
+}
+
+.app-loader-pulse {
+    position: absolute;
+    inset: -5px;
+    border-radius: 19px;
+    border: 1.5px solid var(--accent);
+    opacity: 0;
+    animation: loader-glow-pulse 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+@keyframes loader-glow-pulse {
+    0% { transform: scale(0.95); opacity: 0; }
+    50% { opacity: 0.35; }
+    100% { transform: scale(1.14); opacity: 0; }
+}
+
+.app-loader-progress-track {
+    width: 120px;
+    height: 2px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+    position: relative;
+}
+
+.app-loader-progress-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--ink));
+    border-radius: 99px;
+    transform-origin: left center;
+    animation: loader-slide 1.6s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes loader-slide {
+    0% { transform: translateX(-100%) scaleX(0.35); }
+    50% { transform: translateX(25%) scaleX(0.5); }
+    100% { transform: translateX(110%) scaleX(0.35); }
+}
+
+/* 2. SILKY SMOOTH PAGE & VIEW TRANSITIONS */
+.content-fade {
+    animation: content-smooth-fade 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+@keyframes content-smooth-fade {
+    0% {
+        opacity: 0;
+        transform: translateY(12px) scale(0.995);
+        filter: blur(1px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+/* Page Card Cascade Animations */
+.card-enter {
+    animation: card-cascade-in 0.42s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes card-cascade-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 3. MODAL & OVERLAY MOTION */
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(13, 15, 20, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 150;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.35s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Smooth Springy Modals */
+.auth-modal-content,
+.activity-modal-content {
+    transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 4. SILKY SMOOTH SWITCH TOGGLE PHYSICS */
+.switch-slider {
+    transition: background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.switch-slider:before {
+    transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1),
+                background-color 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* 5. SMOOTH INTERACTIVE MICRO-FEEDBACK */
+button:not(:disabled),
+.module-btn,
+.network-tab-btn,
+.auth-tab,
+.menu-item-btn,
+.card,
+.post-card,
+.action-btn {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active:not(:disabled) {
+    transform: scale(0.972) !important;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Like Heart Pulse Effect */
+@keyframes heart-pulse-bounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.35) rotate(-8deg); }
+    70% { transform: scale(0.92) rotate(4deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+
+.liked-heart-anim {
+    animation: heart-pulse-bounce 0.42s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Smooth Dropdowns & Popovers */
+.dropdown-menu,
+.post-popover,
+.comment-options-menu {
+    transform-origin: top right;
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                visibility 0.25s ease !important;
+}
+
+/* Cards Section Collapse/Expand Animation */
+.cards-grid-wrapper {
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                margin 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+    max-height: 800px;
+    opacity: 1;
+}
+
+.cards-grid-wrapper.hidden {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    pointer-events: none;
+}

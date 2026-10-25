@@ -1,0 +1,795 @@
+.create-post-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+.create-post-header { display: flex; gap: 12px; margin-bottom: 1rem; }
+
+.post-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    flex-shrink: 0;
+}
+
+#post-input {
+    width: 100%;
+    height: 76px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink);
+    resize: none;
+    outline: none;
+    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+#post-input:focus {
+    background: var(--surface);
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* ==========================================
+   MEDIA PREVIEW AREA IN CREATE POST BOX
+   ========================================== */
+.media-preview-container {
+    margin-bottom: 1rem;
+    padding: 0 2px;
+}
+
+.preview-wrapper {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.preview-media {
+    max-height: 220px;
+    max-width: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: var(--radius-sm);
+}
+
+.btn-remove-media {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    background: rgba(13, 15, 20, 0.75);
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-out);
+}
+
+.btn-remove-media:hover {
+    background: var(--danger);
+}
+
+.btn-remove-media i {
+    width: 14px;
+    height: 14px;
+}
+
+/* Spinner Animation for Loading State */
+.spin {
+    animation: spin-anim 0.8s linear infinite;
+}
+
+@keyframes spin-anim {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.create-post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    padding-top: 0.85rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.post-options { display: flex; align-items: center; gap: 0.5rem; }
+
+.post-option-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    transition: background-color 0.2s var(--ease-out);
+}
+
+.post-option-btn:hover { background-color: var(--bg); color: var(--ink); }
+.post-option-btn i { width: 16px; height: 16px; stroke-width: 1.75; }
+
+.text-photo { color: #10B981; }
+.text-tag { color: #3B82F6; }
+.text-feeling { color: #F59E0B; }
+
+.post-submit-area { display: flex; align-items: center; gap: 10px; position: relative; }
+
+.custom-dropdown {
+    position: relative;
+    user-select: none;
+    width: 155px;
+}
+
+.dropdown-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+}
+
+.dropdown-selected-option { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.dropdown-trigger:hover, .dropdown-trigger.open {
+    border-color: var(--accent);
+    background: var(--surface);
+}
+
+.dropdown-arrow {
+    width: 14px;
+    height: 14px;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: transform 0.2s var(--ease-out);
+}
+
+.dropdown-trigger.open .dropdown-arrow { transform: rotate(180deg); }
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: auto;
+    width: 155px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+    gap: 2px;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px) scale(0.98);
+    transition: opacity 0.2s var(--ease-out), transform 0.2s var(--ease-out), visibility 0.2s var(--ease-out);
+}
+
+.dropdown-menu.show { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background-color 0.15s var(--ease-out), color 0.15s var(--ease-out);
+}
+
+.dropdown-item:hover { background: var(--bg); color: var(--ink); }
+.dropdown-item.active { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+
+.btn-publish {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent);
+    color: #FFF;
+    padding: 7px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.82rem;
+    transition: background-color 0.2s var(--ease-out);
+}
+
+.btn-publish:hover { background-color: var(--accent-hover); }
+.btn-publish i { width: 14px; height: 14px; }
+
+@media (max-width: 640px) {
+    .create-post-actions { flex-direction: column; align-items: stretch; gap: 0.75rem; }
+    .post-options { display: flex; align-items: center; justify-content: space-between; gap: 4px; width: 100%; }
+    .post-option-btn { padding: 5px 6px; font-size: 0.72rem; gap: 4px; flex: 1; justify-content: center; }
+    .post-option-btn i { width: 14px; height: 14px; }
+    .post-submit-area { justify-content: space-between; width: 100%; }
+    .dropdown-menu { left: 0; right: auto; }
+}
+
+/* ==========================================
+   CHIPS DISPLAY IN CREATE POST (ACTIVITY & TAGGED FRIENDS)
+   ========================================== */
+.create-post-chips-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-post-chips-wrapper:has(> .activity-chip-container:not([style*="display: none"])),
+.create-post-chips-wrapper:has(> .tagged-friends-chip-container:not([style*="display: none"])) {
+    margin-bottom: 0.85rem;
+}
+
+.activity-chip-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245, 158, 11, 0.12);
+    border: 1px solid rgba(245, 158, 11, 0.28);
+    border-radius: 20px;
+    padding: 5px 12px;
+    margin: 0;
+    max-width: 100%;
+}
+
+.activity-chip-badge {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: #D97706;
+}
+
+[data-theme="dark"] .activity-chip-badge {
+    color: #FBBF24;
+}
+
+.activity-chip-icon {
+    font-size: 0.9rem;
+}
+
+.btn-remove-activity {
+    background: transparent;
+    border: none;
+    color: #D97706;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border-radius: 50%;
+    transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out);
+}
+
+[data-theme="dark"] .btn-remove-activity {
+    color: #FBBF24;
+}
+
+.btn-remove-activity:hover {
+    background: rgba(245, 158, 11, 0.25);
+    color: #B45309;
+}
+
+[data-theme="dark"] .btn-remove-activity:hover {
+    background: rgba(245, 158, 11, 0.3);
+    color: #FDE68A;
+}
+
+.btn-remove-activity i, .btn-remove-activity svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* ==========================================
+   ACTIVITY / FEELING SELECTOR MODAL STYLES
+   ========================================== */
+.activity-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(13, 15, 20, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s var(--ease-out), visibility 0.25s var(--ease-out);
+}
+
+.activity-modal.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.activity-modal-content {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    width: 100%;
+    max-width: 500px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 50px rgba(13, 15, 20, 0.2);
+    transform: translateY(12px) scale(0.97);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+}
+
+.activity-modal.open .activity-modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.activity-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.activity-modal-header h3 {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+}
+
+.activity-close-btn {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--ink-soft);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out);
+}
+
+.activity-close-btn:hover {
+    background: var(--border);
+    color: var(--ink);
+}
+
+.activity-close-btn i, .activity-close-btn svg {
+    width: 16px;
+    height: 16px;
+}
+
+.activity-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.activity-tab {
+    flex: 1;
+    padding: 10px;
+    text-align: center;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s var(--ease-out);
+}
+
+.activity-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    background: var(--surface);
+}
+
+.activity-search-box {
+    padding: 12px 1.25rem;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.activity-search-box .search-icon {
+    position: absolute;
+    left: 2rem;
+    width: 16px;
+    height: 16px;
+    color: var(--ink-soft);
+    pointer-events: none;
+}
+
+.activity-search-box input {
+    width: 100%;
+    padding: 8px 12px 8px 34px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.2s var(--ease-out);
+}
+
+.activity-search-box input:focus {
+    border-color: var(--accent);
+}
+
+.activity-panel {
+    display: none;
+    padding: 1rem 1.25rem;
+    overflow-y: auto;
+    max-height: 52vh;
+}
+
+.activity-panel.active {
+    display: block;
+}
+
+.activity-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+@media (min-width: 480px) {
+    .activity-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.84rem;
+    font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 0.15s var(--ease-out), border-color 0.15s var(--ease-out), transform 0.1s var(--ease-out);
+    user-select: none;
+}
+
+.activity-item:hover {
+    background: var(--accent-soft);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+}
+
+.activity-item .item-emoji {
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.activity-detail-wrapper {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+}
+
+.detail-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.btn-back-activity {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: var(--accent);
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-back-activity i, .btn-back-activity svg {
+    width: 14px;
+    height: 14px;
+}
+
+.selected-prefix {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.detail-input-row {
+    display: flex;
+    gap: 8px;
+}
+
+.activity-detail-input {
+    flex: 1;
+    padding: 8px 12px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.85rem;
+    color: var(--ink);
+    outline: none;
+}
+
+.activity-detail-input:focus {
+    border-color: var(--accent);
+}
+
+.btn-save-detail {
+    background: var(--accent);
+    color: #FFF;
+    border: none;
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s var(--ease-out);
+}
+
+.btn-save-detail:hover {
+    background: var(--accent-hover);
+}
+
+/* ==========================================
+   TAG FRIENDS SELECTOR MODAL STYLES
+   ========================================== */
+.tag-friends-panel {
+    padding: 0.75rem 1.25rem;
+    max-height: 380px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.tag-friends-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.tag-friend-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 0.85rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tag-friend-item:hover {
+    background: var(--bg);
+    border-color: #CBD5E1;
+}
+
+.tag-friend-item.selected {
+    background: rgba(42, 70, 255, 0.05);
+    border-color: rgba(42, 70, 255, 0.35);
+}
+
+.tag-friend-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.tag-friend-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.tag-friend-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.tag-friend-name {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--ink);
+}
+
+.tag-friend-sub {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+}
+
+.tag-friend-checkbox {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    color: #fff;
+    background: var(--bg);
+}
+
+.tag-friend-checkbox i, .tag-friend-checkbox svg {
+    width: 13px;
+    height: 13px;
+}
+
+.tag-friend-item.selected .tag-friend-checkbox {
+    background: var(--accent, #2A46FF);
+    border-color: var(--accent, #2A46FF);
+}
+
+.tag-friends-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1.25rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg);
+}
+
+.tagged-count-badge {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+}
+
+.btn-save-tag-friends {
+    background: var(--accent, #2A46FF);
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.btn-save-tag-friends:hover {
+    background: var(--accent-hover, #1A32D5);
+}
+
+/* Tagged Friends Chip Display in Create Post Card */
+.tagged-friends-chip-container {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 12px;
+    background: var(--accent-soft, rgba(42, 70, 255, 0.08));
+    border: 1px solid var(--accent-glow, rgba(42, 70, 255, 0.25));
+    border-radius: 20px;
+    margin: 0;
+    width: fit-content;
+    max-width: 100%;
+}
+
+.tagged-friends-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: var(--accent, #2A46FF);
+}
+
+.tagged-friends-chip-badge i, .tagged-friends-chip-badge svg {
+    width: 14px;
+    height: 14px;
+}
+
+.btn-remove-tagged-friends {
+    background: transparent;
+    border: none;
+    color: var(--accent, #2A46FF);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 2px;
+    border-radius: 50%;
+    transition: background 0.15s var(--ease-out), color 0.15s var(--ease-out);
+}
+
+.btn-remove-tagged-friends:hover {
+    background: var(--accent-soft, rgba(42, 70, 255, 0.2));
+    color: var(--danger, #EF4444);
+}
+
+.btn-remove-tagged-friends i, .btn-remove-tagged-friends svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Tagged Friends Badge in Post Card */
+.post-tagged-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    margin-left: 0.35rem;
+}
+
+.post-tagged-badge i, .post-tagged-badge svg {
+    width: 13px;
+    height: 13px;
+    color: var(--accent, #2A46FF);
+}
+
+.tagged-friend-link {
+    font-weight: 600;
+    color: var(--accent, #2A46FF);
+    cursor: pointer;
+    transition: color 0.15s ease, text-decoration 0.15s ease;
+}
+
+.tagged-friend-link:hover {
+    color: var(--accent-hover, #1A32D5);
+    text-decoration: underline;
+}
+
+

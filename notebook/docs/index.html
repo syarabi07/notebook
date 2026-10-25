@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notebook — Case File · Product &amp; Engineering Docs</title>
+<meta name="description" content="Notebook: Unified Campus Social &amp; Real-Time Information Hub — Overview, Product Requirements, and Engineering documentation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F3EFE3;
+    --paper-line:#D8CFB8;
+    --paper-shadow: 30 20 10;
+    --ink:#221E19;
+    --ink-soft:#5B5347;
+    --navy:#1E2E4A;
+    --navy-soft:#3A4D71;
+    --maroon:#6B2536;
+    --maroon-soft:#8E3A4C;
+    --forest:#2A4A3B;
+    --forest-soft:#3F6A55;
+    --stamp:#B23A2E;
+    --amber:#9C6B1F;
+    --desk:#141C27;
+    --desk-2:#0F151E;
+    --hub-home:#3B5BA5;
+    --hub-academic:#6B3FA0;
+    --hub-transport:#B4691E;
+    --hub-logistics:#1F7A5C;
+    --hub-health:#B23A2E;
+    --radius:14px;
+  }
+
+  *,*::before,*::after{scrollbar-width: none; -ms-overflow-style: none; box-sizing:border-box;}
+  *::-webkit-scrollbar {display: none;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(255,255,255,0.05), transparent 45%),
+      linear-gradient(180deg, var(--desk), var(--desk-2));
+    color:var(--ink);
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  ::selection{ background: var(--stamp); color:#fff; }
+
+  h1,h2,h3,h4,h5,.mono,.eyebrow,.tab-btn,.chip,.pill,.stamp,.stat-num,.doc-code,
+  button, .quicklinks a, .tbl th, pre, code{
+    font-family:'IBM Plex Mono', ui-monospace, Menlo, monospace;
+  }
+
+  a{ color: var(--navy); }
+  a:hover{ color: var(--stamp); }
+
+  :focus-visible{ outline: 3px solid var(--stamp); outline-offset: 2px; border-radius:2px; }
+
+  img{max-width:100%;}
+
+  /* ---------- layout shell ---------- */
+  .desk{
+    max-width:1080px;
+    margin:0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  .binder{ position:relative; }
+
+  /* ---------- cover ---------- */
+  .cover{
+    position:relative;
+    background:
+      linear-gradient(155deg, var(--navy) 0%, #1a2740 55%, var(--maroon) 130%);
+    border-radius: var(--radius);
+    padding: 46px 40px 40px;
+    color:#EFE7D6;
+    box-shadow: 0 30px 60px -25px rgba(0,0,0,0.65), 0 2px 0 rgba(255,255,255,0.05) inset;
+    overflow:hidden;
+  }
+  .cover::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 64px);
+    pointer-events:none;
+  }
+  .cover-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap:24px; flex-wrap:wrap;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:0.72rem; letter-spacing:0.16em; text-transform:uppercase;
+    color:#C9BFA5; margin:0 0 14px;
+  }
+  .cover h1{
+    font-size: clamp(2.6rem, 6vw, 4.2rem);
+    line-height:0.95;
+    margin: 0 0 10px;
+    letter-spacing:-0.01em;
+    color:#F7F1E1;
+    text-transform:uppercase;
+  }
+  .tagline{
+    font-family:'Source Serif 4', serif;
+    font-style:italic;
+    font-size:1.15rem;
+    max-width:36ch;
+    color:#E4DAC0;
+    margin:0 0 28px;
+  }
+  .cover-meta{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
+    gap: 14px 28px;
+    border-top:1px solid rgba(255,255,255,0.18);
+    padding-top:20px;
+    max-width:640px;
+    position:relative;
+  }
+  .cover-meta dt{ font-size:0.64rem; letter-spacing:0.12em; text-transform:uppercase; color:#B7AC8E; margin-bottom:4px;}
+  .cover-meta dd{ margin:0; font-size:0.86rem; color:#F0E9D6; font-family:'IBM Plex Mono',monospace;}
+
+  .stamp{
+    position:relative;
+    flex:0 0 auto;
+    width:118px; height:118px;
+    border:3px double var(--stamp);
+    border-radius:50%;
+    color:var(--stamp);
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    transform:rotate(-9deg);
+    font-size:0.66rem; font-weight:700; letter-spacing:0.06em; text-transform:uppercase;
+    line-height:1.35;
+    background:rgba(178,58,46,0.06);
+    padding:8px;
+  }
+  .stamp span{ display:block; }
+  .stamp .stamp-big{ font-size:0.92rem; margin-bottom:2px; }
+
+  /* ---------- tab bar ---------- */
+  .tab-bar{
+    display:flex;
+    gap:6px;
+    margin: 22px 6px -1px;
+    position:relative;
+    z-index:2;
+  }
+  .tab-btn{
+    appearance:none; cursor:pointer;
+    border:none;
+    background: #DCD2B2;
+    color: var(--ink-soft);
+    padding: 14px 18px 16px;
+    border-radius: 10px 10px 0 0;
+    font-size:0.78rem;
+    letter-spacing:0.05em;
+    text-transform:uppercase;
+    display:flex; align-items:baseline; gap:8px;
+    transform: translateY(6px);
+    transition: transform .18s ease, background .18s ease, color .18s ease;
+    box-shadow: 0 -1px 0 rgba(0,0,0,0.05) inset;
+  }
+  .tab-index{ font-size:0.68rem; opacity:0.55; }
+  .tab-sub{ font-size:0.62rem; opacity:0.6; margin-left:2px; }
+  .tab-btn:hover{ transform: translateY(2px); }
+  .tab-btn.active{
+    background: var(--paper);
+    color: var(--ink);
+    transform: translateY(0);
+    box-shadow: 0 -10px 24px -18px rgba(0,0,0,0.5);
+  }
+  .tab-btn[data-target="overview"].active{ box-shadow: inset 0 3px 0 var(--navy); }
+  .tab-btn[data-target="product"].active{ box-shadow: inset 0 3px 0 var(--maroon); }
+  .tab-btn[data-target="engineering"].active{ box-shadow: inset 0 3px 0 var(--forest); }
+
+  /* ---------- page ---------- */
+  .page-wrap{ position:relative; }
+  .punch-holes{
+    position:absolute; left:16px; top:36px; bottom:36px;
+    display:flex; flex-direction:column; justify-content:space-between;
+    width:18px; z-index:2;
+  }
+  .punch-holes span{
+    width:16px; height:16px; border-radius:50%;
+    background: var(--desk-2);
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+    display:block;
+  }
+  .page{
+    background: var(--paper);
+    background-image:
+      repeating-linear-gradient(180deg, rgba(90,80,60,0.05) 0 1px, transparent 1px 30px);
+    border-radius: 0 var(--radius) var(--radius) var(--radius);
+    padding: 48px 40px 56px 92px;
+    box-shadow: 0 40px 70px -35px rgba(0,0,0,0.7);
+    min-height: 400px;
+  }
+  .page::selection{ background:var(--stamp); }
+  .margin-rule{
+    position:absolute; left:66px; top:0; bottom:0; width:2px;
+    background: rgba(178,58,46,0.35);
+  }
+
+  .panel[hidden]{ display:none; }
+
+  .doc-head{ margin-bottom: 8px; }
+  .doc-code{ font-size:0.7rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--ink-soft); }
+  .doc-title{ font-size:2rem; margin: 6px 0 4px; letter-spacing:-0.01em; }
+  .doc-sub{ font-family:'Source Serif 4',serif; font-style:italic; color:var(--ink-soft); margin:0 0 18px; font-size:1.05rem;}
+
+  .quicklinks{
+    display:flex; flex-wrap:wrap; gap:8px;
+    list-style:none; padding:0; margin: 0 0 34px;
+    border-top:1px dashed var(--paper-line);
+    border-bottom:1px dashed var(--paper-line);
+    padding:12px 0;
+  }
+  .quicklinks a{
+    font-size:0.68rem; text-transform:uppercase; letter-spacing:0.04em;
+    text-decoration:none; color:var(--ink-soft);
+    background: rgba(90,80,60,0.07);
+    padding:6px 10px; border-radius:20px;
+    transition: background .15s ease, color .15s ease;
+  }
+  .quicklinks a:hover{ background: var(--ink); color: var(--paper); }
+
+  .prose h3{
+    font-size:1.32rem; margin: 46px 0 6px; padding-top:8px;
+    scroll-margin-top: 20px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .prose h3 .num{ font-size:0.72rem; color: var(--ink-soft); opacity:0.6; }
+  .prose h3:first-child{ margin-top:0; }
+  .prose h4{ font-size:1.02rem; margin: 26px 0 10px; text-transform:uppercase; letter-spacing:0.03em; color:var(--navy-soft);}
+  .prose h5{ font-size:0.94rem; margin:0 0 6px; font-family:'Source Serif 4',serif; font-weight:700;}
+  .prose p{ line-height:1.7; margin: 0 0 14px; max-width:74ch; }
+  .prose ul, .prose ol{ line-height:1.7; padding-left:1.25em; max-width:70ch; margin:0 0 14px;}
+  .prose li{ margin-bottom:6px; }
+  .prose strong{ color:var(--ink); }
+  .lede{ font-size:1.08rem; }
+
+  blockquote.pull{
+    margin: 20px 0; padding: 14px 20px;
+    border-left: 3px solid var(--stamp);
+    background: rgba(178,58,46,0.06);
+    font-family:'Source Serif 4',serif; font-style:italic; font-size:1.05rem;
+    max-width:64ch;
+  }
+
+  /* ---------- chips / pills ---------- */
+  .chip-row{ display:flex; flex-wrap:wrap; gap:8px; margin: 6px 0 18px; }
+  .chip{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:0.66rem; letter-spacing:0.03em; text-transform:uppercase;
+    padding:5px 10px; border-radius:20px; color:#fff;
+    white-space:nowrap;
+  }
+  .chip-home{ background:var(--hub-home); }
+  .chip-academic{ background:var(--hub-academic); }
+  .chip-transport{ background:var(--hub-transport); }
+  .chip-logistics{ background:var(--hub-logistics); }
+  .chip-health{ background:var(--hub-health); }
+  .chip-dot{ width:6px; height:6px; border-radius:50%; background:#fff; opacity:0.85; }
+
+  .pill{ display:inline-block; font-size:0.64rem; text-transform:uppercase; letter-spacing:0.04em; padding:3px 9px; border-radius:20px; color:#fff; }
+  .pill-high{ background:var(--stamp); }
+  .pill-medium{ background:var(--hub-transport); }
+  .pill-low{ background:var(--hub-logistics); }
+
+  /* ---------- tables ---------- */
+  .tbl-wrap{ overflow-x:auto; margin: 8px 0 22px; border-radius:8px; box-shadow:0 0 0 1px var(--paper-line); }
+  table.tbl{ border-collapse:collapse; width:100%; min-width:560px; background:#FBF9F2; }
+  table.tbl caption{ text-align:left; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); padding:8px 14px; background:rgba(90,80,60,0.06);}
+  .tbl th{
+    background: var(--navy); color:#F1EAD6;
+    text-align:left; font-size:0.68rem; letter-spacing:0.05em; text-transform:uppercase;
+    padding:11px 14px; font-weight:600;
+  }
+  .tbl td{
+    padding:11px 14px; font-size:0.88rem; line-height:1.55;
+    border-bottom:1px solid var(--paper-line);
+    vertical-align:top;
+    font-family:'Source Serif 4',serif;
+  }
+  .tbl tr:last-child td{ border-bottom:none; }
+  .tbl tr:nth-child(even) td{ background: rgba(90,80,60,0.035); }
+  .tbl-compare td:last-child, .tbl-compare th:last-child{ background: rgba(30,46,74,0.09); font-weight:600; }
+  .tbl-compare tr:nth-child(even) td:last-child{ background: rgba(30,46,74,0.13); }
+  .tbl-stack td:nth-child(2){ background: rgba(42,74,59,0.1); font-weight:600; }
+  .tbl-stack tr:nth-child(even) td:nth-child(2){ background: rgba(42,74,59,0.15); }
+  .tbl td code{ font-size:0.78rem; background:rgba(90,80,60,0.08); padding:1px 5px; border-radius:4px;}
+
+  /* ---------- code / ascii ---------- */
+  .code-wrap{ margin: 8px 0 24px; }
+  .code-label{ font-size:0.64rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--ink-soft); margin-bottom:6px; display:flex; gap:8px; align-items:center;}
+  .code-label::after{ content:""; flex:1; height:1px; background:var(--paper-line); }
+  pre{
+    margin:0; overflow-x:auto;
+    background: #1B2430; color:#DCE6E0;
+    border-radius:10px; padding:18px 20px;
+    font-size:0.74rem; line-height:1.55;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset;
+  }
+  pre.blueprint{
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 20px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 20px),
+      #16222B;
+    color:#B9D6CC;
+  }
+  pre code{ font-family:'IBM Plex Mono',monospace; white-space:pre; }
+  .code-inline{ background:rgba(90,80,60,0.08); padding:1px 6px; border-radius:4px; font-size:0.85em; }
+
+  /* ---------- cards / grids ---------- */
+  .grid{ display:grid; gap:16px; margin: 10px 0 26px; }
+  .grid-2{ grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
+  .grid-3{ grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); }
+
+  .card{
+    background:#FBF9F2; border:1px solid var(--paper-line); border-radius:10px;
+    padding:16px 18px; position:relative;
+  }
+  .card h5{ margin-bottom:6px; }
+  .card p{ margin:0; font-size:0.86rem; line-height:1.55; color:var(--ink);}
+  .card.accent-home{ border-top:3px solid var(--hub-home); }
+  .card.accent-academic{ border-top:3px solid var(--hub-academic); }
+  .card.accent-transport{ border-top:3px solid var(--hub-transport); }
+  .card.accent-logistics{ border-top:3px solid var(--hub-logistics); }
+  .card.accent-health{ border-top:3px solid var(--hub-health); }
+
+  .persona-card .role{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.03em; color:var(--ink-soft); margin-bottom:10px; display:block;}
+  .persona-card dl{ margin:10px 0 0; }
+  .persona-card dt{ font-size:0.62rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--ink-soft); margin-top:8px;}
+  .persona-card dd{ margin:2px 0 0; font-size:0.85rem; line-height:1.5; }
+
+  /* ---------- stat grids ---------- */
+  .stat-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin:10px 0 24px;}
+  .stat-card{ background:#FBF9F2; border-left:3px solid var(--forest); padding:14px 16px; border-radius:0 8px 8px 0; box-shadow:0 0 0 1px var(--paper-line);}
+  .stat-num{ font-size:1.5rem; font-weight:700; color:var(--forest); display:block; margin-bottom:2px;}
+  .stat-label{ font-size:0.64rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); font-family:'IBM Plex Mono',monospace;}
+
+  /* ---------- lighthouse audit ---------- */
+  .perf-meta{
+    display:flex; flex-wrap:wrap; align-items:baseline; gap:10px;
+    font-size:0.64rem; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft);
+    font-family:'IBM Plex Mono',monospace; margin:2px 0 22px;
+  }
+  .perf-meta .rule{ flex:1 1 24px; min-width:16px; height:1px; align-self:center; background:var(--paper-line); }
+  .report-link{
+    font-family:'IBM Plex Mono',monospace; font-size:0.66rem; letter-spacing:0.04em; text-transform:uppercase;
+    text-decoration:none; white-space:nowrap; color:var(--navy);
+    border-bottom:1px dashed var(--navy-soft); padding-bottom:1px;
+    transition:color .15s ease, border-color .15s ease;
+  }
+  .report-link:hover{ color:var(--stamp); border-color:var(--stamp); }
+
+  .score-row{ display:flex; flex-wrap:wrap; gap:28px; margin:6px 0 28px; }
+  .score-badge{ display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .score-ring{
+    --size:78px; width:var(--size); height:var(--size); border-radius:50%;
+    display:flex; align-items:center; justify-content:center; position:relative;
+    background:conic-gradient(var(--ring-color) var(--score), rgba(90,80,60,0.16) 0);
+  }
+  .score-ring::before{
+    content:""; position:absolute; inset:7px; border-radius:50%;
+    background:#FBF9F2; box-shadow:0 0 0 1px var(--paper-line);
+  }
+  .score-value{ position:relative; z-index:1; font-family:'IBM Plex Mono',monospace; font-weight:700; font-size:1.16rem; color:var(--ink); }
+  .score-name{ font-family:'IBM Plex Mono',monospace; font-size:0.62rem; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-soft); }
+  .score-good .score-ring{ --ring-color:var(--forest); }
+  .score-mid  .score-ring{ --ring-color:var(--amber); }
+  .score-poor .score-ring{ --ring-color:var(--stamp); }
+
+  .chip-link{ text-decoration:none; cursor:pointer; transition:filter .15s ease, transform .15s ease, box-shadow .15s ease; }
+  .chip-link:hover{ color:#fff; filter:brightness(1.14); transform:translateY(-1px); box-shadow:0 4px 10px -4px rgba(0,0,0,0.45); }
+
+  /* ---------- timeline (roadmap) ---------- */
+  .timeline{ position:relative; margin: 14px 0 30px; padding-left:26px; }
+  .timeline::before{ content:""; position:absolute; left:6px; top:6px; bottom:6px; width:2px; background:var(--paper-line); }
+  .phase{ position:relative; margin-bottom:22px; background:#FBF9F2; border:1px solid var(--paper-line); border-radius:10px; padding:18px 20px 16px; }
+  .phase::before{
+    content:""; position:absolute; left:-26px; top:22px; width:12px; height:12px; border-radius:50%;
+    background:var(--paper); border:3px solid var(--navy);
+  }
+  .phase.current::before{ border-color:var(--stamp); }
+  .phase.current{ box-shadow: 0 0 0 2px var(--stamp) inset; }
+  .phase-head{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:8px;}
+  .phase-tag{ font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase; background:var(--navy); color:#F0E9D6; padding:3px 9px; border-radius:4px;}
+  .phase.current .phase-tag{ background:var(--stamp); }
+  .phase h4{ margin:0; text-transform:none; letter-spacing:0; font-size:1.05rem; color:var(--ink); }
+  .phase ul{ margin:8px 0 0; padding-left:1.2em; }
+  .phase li{ font-size:0.86rem; line-height:1.55; margin-bottom:4px; }
+  .current-flag{ font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; color:var(--stamp); border:1px solid var(--stamp); padding:2px 7px; border-radius:20px;}
+
+  hr.tear{
+    border:none; height:1px; margin:40px 0;
+    background: repeating-linear-gradient(90deg, var(--paper-line) 0 6px, transparent 6px 10px);
+  }
+
+  /* ---------- footer ---------- */
+  .colophon{
+    text-align:center; color:#8C8570; font-size:0.72rem; letter-spacing:0.04em;
+    margin-top:26px; font-family:'IBM Plex Mono',monospace;
+  }
+  .colophon a{ color:#B7AC8E; }
+
+  /* ---------- back to top ---------- */
+  .back-to-top{
+    position:fixed;
+    right:24px; bottom:24px;
+    width:50px; height:50px;
+    border-radius:50%;
+    border:2px solid var(--ink);
+    background: var(--paper);
+    color: var(--ink);
+    font-size:1.2rem;
+    line-height:1;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    box-shadow: 0 12px 26px -12px rgba(0,0,0,0.65);
+    opacity:0;
+    transform: translateY(14px);
+    pointer-events:none;
+    transition: opacity .22s ease, transform .22s ease, background .18s ease, color .18s ease;
+    z-index:40;
+  }
+  .back-to-top.visible{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .back-to-top:hover, .back-to-top:focus-visible{ background: var(--ink); color: var(--paper); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 720px){
+    .desk{ padding: 24px 12px 60px; }
+    .cover{ padding:32px 22px 28px; }
+    .stamp{ position:absolute; top:20px; right:20px; width:84px; height:84px; font-size:0.56rem; }
+    .stamp .stamp-big{ font-size:0.72rem; }
+    .cover-top{ display:block; }
+    .tagline{ max-width:none; }
+    .tab-bar{ margin:18px 2px -1px; gap:4px; }
+    .tab-btn{ padding:10px 10px 12px; font-size:0.66rem; flex:1; justify-content:center; }
+    .tab-sub{ display:none; }
+    .punch-holes{ left:8px; width:10px; }
+    .punch-holes span{ width:9px; height:9px; }
+    .margin-rule{ left:30px; }
+    .page{ padding: 30px 18px 40px 44px; border-radius:0 8px 8px 8px; }
+    .doc-title{ font-size:1.5rem; }
+    pre{ font-size:0.64rem; padding:14px; }
+    .back-to-top{ right:14px; bottom:14px; width:44px; height:44px; font-size:1.05rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+    html{ scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+<div class="desk">
+  <div class="binder">
+
+    <!-- ============ COVER ============ -->
+    <header class="cover">
+      <div class="cover-top">
+        <div>
+          <p class="eyebrow">Case File · Campus Hackathon Submission</p>
+          <h1>Notebook</h1>
+          <p class="tagline">&ldquo;One Campus, One Feed, Zero Lost Notices.&rdquo;</p>
+        </div>
+        <div class="stamp" aria-hidden="true">
+          <span class="stamp-big">Hackathon</span>
+          <span>MVP</span>
+          <span>Phase 1</span>
+        </div>
+      </div>
+      <dl class="cover-meta">
+        <div><dt>Document Version</dt><dd>1.2 — Mentor Review Edition</dd></div>
+        <div><dt>Pilot Institution</dt><dd>NITER · Multi-Campus Scalable</dd></div>
+        <div><dt>Architecture</dt><dd>Client-First PWA + BaaS</dd></div>
+        <div><dt>Primary Stack</dt><dd>Vite · Tailwind v4 · Supabase</dd></div>
+      </dl>
+    </header>
+
+    <!-- ============ TABS ============ -->
+    <nav class="tab-bar" role="tablist" aria-label="Documentation sections">
+      <button class="tab-btn active" data-target="overview" role="tab" id="tab-overview" aria-selected="true" aria-controls="panel-overview">
+        <span class="tab-index">01</span><span>Overview</span><span class="tab-sub">README</span>
+      </button>
+      <button class="tab-btn" data-target="product" role="tab" id="tab-product" aria-selected="false" aria-controls="panel-product">
+        <span class="tab-index">02</span><span>Product</span><span class="tab-sub">PRD</span>
+      </button>
+      <button class="tab-btn" data-target="engineering" role="tab" id="tab-engineering" aria-selected="false" aria-controls="panel-engineering">
+        <span class="tab-index">03</span><span>Engineering</span><span class="tab-sub">TECHNOLOGY</span>
+      </button>
+    </nav>
+
+    <!-- ============ PAGE ============ -->
+    <div class="page-wrap">
+      <div class="punch-holes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="margin-rule" aria-hidden="true"></div>
+      <main class="page">
+
+        <!-- ======================================================= -->
+        <!-- PANEL 1 — OVERVIEW (README.md)                          -->
+        <!-- ======================================================= -->
+        <section id="panel-overview" class="panel active" role="tabpanel" aria-labelledby="tab-overview">
+          <div class="doc-head">
+            <p class="doc-code">Document 01 · README.md</p>
+            <h2 class="doc-title">Project Overview</h2>
+            <p class="doc-sub">Unified Campus Social &amp; Real-Time Information Hub</p>
+            <div class="chip-row">
+              <span class="chip" style="background:var(--navy)"> Best Practice 100/100</span>
+              <span class="chip" style="background:var(--navy-soft)">SEO 92/100</span>
+              <span class="chip" style="background:var(--forest)">Supabase</span>
+              <span class="chip" style="background:var(--forest-soft)">PWA Ready</span>
+              <a class="chip chip-link" style="background:var(--amber)" href="/lighthouse">Performance 66/100</a>
+              <span class="chip" style="background:#6b6248">Accessibility 100/100</span>
+            </div>
+          </div>
+
+          <nav class="quicklinks" aria-label="Overview sections">
+            <a href="#ov-problem">Problem → Solution</a>
+            <a href="#ov-features">Features</a>
+            <a href="#ov-architecture">Architecture</a>
+            <a href="#ov-quickstart">Quick Start</a>
+            <a href="#ov-structure">Directory Structure</a>
+            <a href="#ov-pitch">Pitch Script</a>
+            <a href="#ov-docs">Docs Suite</a>
+            <a href="#ov-contributors">Contributors</a>
+            <a href="#ov-highlights">Highlights</a>
+          </nav>
+
+          <div class="prose">
+            <p class="lede">Bridging the communication gap across university campuses with verified feeds, instant emergency blood requests, transit tracking, and resilient offline capability.</p>
+
+            <h3 id="ov-problem"><span class="num">§1</span>The Campus Problem, vs. The Notebook Solution</h3>
+            <div class="tbl-wrap">
+              <table class="tbl tbl-compare">
+                <thead><tr><th>The Campus Problem Today</th><th>The Notebook Solution</th></tr></thead>
+                <tbody>
+                  <tr><td><strong>Buried Academic Notices:</strong> Critical exam and class routine changes get lost under thousands of informal messages in messaging groups.</td><td><strong>Dedicated Academic Hub:</strong> Clean, categorized academic notices tagged by department and semester with permanent bookmarking.</td></tr>
+                  <tr><td><strong>Emergency Blood Bottlenecks:</strong> Life-critical blood requests fail due to missing donor filters and slow broadcast reach.</td><td><strong>Emergency Health Hub:</strong> Instant access to blood donor calls, urgent filters, and one-tap volunteer contact actions.</td></tr>
+                  <tr><td><strong>Commuter Transit Uncertainty:</strong> Students miss unscheduled bus changes and room relocations while traveling.</td><td><strong>Real-Time Transport Desk:</strong> Centralized schedule updates and commuter alerts accessible from any device.</td></tr>
+                  <tr><td><strong>Unstable Campus Connectivity:</strong> Weak Wi-Fi in auditoriums and dormitories cuts students off from vital information.</td><td><strong>Offline-First PWA:</strong> Service Worker caching with smooth bottom status alert (&ldquo;Showing cached campus content&rdquo;).</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="ov-features"><span class="num">§2</span>Key Features &amp; Hub Architecture</h3>
+
+            <h4>Five Specialized Functional Hubs</h4>
+            <div class="grid grid-3">
+              <div class="card accent-home"><span class="chip chip-home"><span class="chip-dot"></span>Home</span><h5>General</h5><p>Inter-departmental highlights, campus events, sports meets, and student club showcases.</p></div>
+              <div class="card accent-academic"><span class="chip chip-academic"><span class="chip-dot"></span>Academic</span><h5>Academic Hub</h5><p>Syllabus notes, assignment briefs, exam routines, and class representative announcements.</p></div>
+              <div class="card accent-transport"><span class="chip chip-transport"><span class="chip-dot"></span>Transport</span><h5>Transport Desk</h5><p>Real-time campus bus schedules, route notices, and commuter alerts.</p></div>
+              <div class="card accent-logistics"><span class="chip chip-logistics"><span class="chip-dot"></span>Logistics</span><h5>Logistics &amp; Lost/Found</h5><p>Hostel notices, canteen daily menus, library hours, and lost item reports.</p></div>
+              <div class="card accent-health"><span class="chip chip-health"><span class="chip-dot"></span>Health</span><h5>Emergency Health &amp; Blood Registry</h5><p>Urgent blood donation appeals, on-campus medical center hours, and emergency first-aid contacts.</p></div>
+            </div>
+
+            <h4>Robust Student Identity &amp; Security</h4>
+            <ul>
+              <li><strong>Student ID &amp; Department Tagging:</strong> Automatic profile attribution showing student batch, department, and ID.</li>
+              <li><strong>Self-Service Password Reset:</strong> Integrated email-based recovery directly within the login modal.</li>
+              <li><strong>Seamless Account Re-creation:</strong> Safeguards that prevent orphaned or stale user profile records.</li>
+            </ul>
+
+            <h4>Engagement &amp; Personal Bookmarking</h4>
+            <ul>
+              <li><strong>Multi-Sentiment Reactions:</strong> Instant reaction toggles — Upvote (endorsement/agreement), Heart (appreciation), and Helpful (academic utility).</li>
+              <li><strong>Threaded Commenting:</strong> Active peer discussions under every post with real-time UI updates.</li>
+              <li><strong>Private Bookmarking (Saved Vault):</strong> One-tap saving of important schedules and notes for fast recall.</li>
+            </ul>
+
+            <h4>Offline-First PWA Technology</h4>
+            <ul>
+              <li><strong>Installable on Any Device:</strong> Installable on Android, iOS, Windows, and macOS as a native standalone app.</li>
+              <li><strong>Smart Bottom Offline Banner:</strong> Non-intrusive bottom notification alert indicating cached campus mode when internet connectivity drops.</li>
+              <li><strong>Automatic Background Sync:</strong> Restores live feed queries immediately upon reconnection.</li>
+            </ul>
+
+            <h4>Campus Safety &amp; Support Desk</h4>
+            <ul>
+              <li><strong>Community Report System:</strong> Multi-category reporting mechanism for harassment, spam, or false information.</li>
+              <li><strong>One-Tap Emergency Directory:</strong> Direct WhatsApp, phone call, and email shortcuts to campus authorities and medical clubs.</li>
+            </ul>
+
+            <h3 id="ov-architecture"><span class="num">§3</span>System Architecture</h3>
+            <p>Notebook leverages a modern <strong>Decoupled Client-First Progressive Web Architecture</strong>.</p>
+            <div class="code-wrap">
+              <div class="code-label">Client ↔ Cache ↔ Cloud</div>
+              <pre class="blueprint"><code> ┌─────────────────────────────────────────────────────────────────┐
+ │                 Notebook Progressive Web App              │
+ │             (ES6+ Modular JS + Tailwind CSS v4)           │
+ └──────────────┬───────────────────────────────┬──────────────────┘
+        (Offline Cache)             (REST / WebSockets)
+               ▼                            ▼
+     ┌──────────────────────┐       ┌─────────────────────────┐
+     │   Service Worker   │       │    Supabase Backend   │
+     │      (sw.js)       │       │ • PostgreSQL 15 (RLS) │
+     │ • Cache Storage    │       │ • GoTrue Auth (JWT)   │
+     │ • Offline Fallback │       │ • Realtime CDC Engine │
+     └──────────────────────┘       └─────────────────────────┘</code></pre>
+            </div>
+
+            <h3 id="ov-quickstart"><span class="num">§4</span>Quick Start Guide</h3>
+            <h4>Prerequisites</h4>
+            <ul>
+              <li>Node.js (v18.0.0 or higher recommended)</li>
+              <li>npm, bun, or yarn</li>
+            </ul>
+            <div class="code-wrap">
+              <div class="code-label">1 — Clone &amp; install</div>
+              <pre><code>git clone https://github.com/your-username/notebook-campus-social.git
+cd notebook-campus-social
+npm install</code></pre>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label">2 — Configure environment (.env)</div>
+              <pre><code>VITE_SUPABASE_URL=https://vrkcucdeqavujvfbkqpk.supabase.co
+VITE_SUPABASE_ANON_KEY=your_supabase_anon_key_here</code></pre>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label">3 — Run dev server</div>
+              <pre><code>npm run dev
+# → http://localhost:3000</code></pre>
+            </div>
+            <div class="code-wrap">
+              <div class="code-label">4 — Build &amp; lint for production</div>
+              <pre><code>npm run lint
+npm run build
+# → optimized static bundle in /dist</code></pre>
+            </div>
+
+            <h3 id="ov-structure"><span class="num">§5</span>Project Directory Structure</h3>
+            <div class="code-wrap">
+              <pre><code>├── /css                       # Modular CSS layer powered by Tailwind CSS v4
+│   ├── /base                  # Reset, typography, and keyframe animations
+│   ├── /components            # Auth modal, cards, create-post widget, PWA toasts
+│   ├── /layout                # Top navbar, bottom navigation, adaptive sidebar
+│   └── /pages                 # Page-specific styling (Friends, Profile, Saved, Support)
+├── /js                        # Modular ES6+ JavaScript Layer
+│   ├── /config                # Supabase client singleton configuration
+│   ├── /modules               # Core application engines (Auth, Feed, Comments, Nav, PWA)
+│   ├── /pages                 # Standalone page controllers (Profile, Saved, Support, Report)
+│   └── main.js                # Main application bootstrap and event orchestration
+├── /docs                      # Documentation suite (PRD, TECHNOLOGY, README)
+├── /public
+│   └── manifest.json          # PWA web manifest configuration
+├── index.html                 # Semantic HTML5 root document
+└── sw.js                      # Service Worker for offline caching &amp; background sync</code></pre>
+            </div>
+
+            <h3 id="ov-pitch"><span class="num">§6</span>3-Minute Hackathon Pitch Script</h3>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Time</th><th>Segment</th><th>What to Say &amp; Demonstrate</th></tr></thead>
+                <tbody>
+                  <tr><td>0:00–0:45</td><td>The Problem</td><td>&ldquo;Judges, university students lose hours every week scrolling through noisy WhatsApp groups trying to find bus schedules, class routines, or urgent blood donors. Notebook solves this with a unified, verified campus social network.&rdquo; <em>(Show mobile view.)</em></td></tr>
+                  <tr><td>0:45–1:45</td><td>The 5 Hubs &amp; Post Flow</td><td>&ldquo;Notebook has 5 dedicated hubs: Academic, Transport, Health, Logistics, and General Life. Watch how easy it is to filter exam notices or publish a post with instant image compression and student ID attribution.&rdquo; <em>(Create post &amp; react.)</em></td></tr>
+                  <tr><td>1:45–2:30</td><td>Offline Resilience</td><td>&ldquo;Campus Wi-Fi often drops in transit or basements. Watch what happens when I switch to offline mode — Notebook keeps working from cached storage and alerts the user with a smooth bottom status toast.&rdquo; <em>(Toggle offline in DevTools.)</em></td></tr>
+                  <tr><td>2:30–3:00</td><td>Safety &amp; Roadmap</td><td>&ldquo;We&rsquo;ve also built a Campus Safety Report Desk and One-Tap Emergency Directory. In Phase 2 we expand to GPS shuttle tracking and SMS emergency donor broadcasts. Thank you!&rdquo;</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="ov-docs"><span class="num">§7</span>Documentation Suite</h3>
+            <ul>
+              <li><strong>PRD.md</strong> — Complete Product Requirements, User Personas, Feature Matrix &amp; Roadmap.</li>
+              <li><strong>TECHNOLOGY.md</strong> — Technical Architecture, PostgreSQL 15 DDL, Security Posture &amp; Performance Metrics.</li>
+              <li><strong>README.md</strong> — Comprehensive Project Overview and Hackathon Evaluation Guide.</li>
+            </ul>
+
+            <hr class="tear">
+            <h3 id="ov-contributors" style="margin-top:0;"><span class="num">§8</span>Contributors &amp; Acknowledgements</h3>
+            <ul>
+              <li><strong>Developer &amp; Project Lead:</strong> Built for the Campus Hackathon Primary Selection.</li>
+              <li><strong>Pilot Campus:</strong> National Institute of Textile Engineering &amp; Research (NITER).</li>
+              <li><strong>Special Thanks:</strong> Campus mentors, student beta testers, and open-source contributors.</li>
+            </ul>
+            <hr class="tear">
+            <h3 id="ov-highlights"><span class="num">§9</span>Key Highlights of This Submission</h3>
+            <ol>
+              <li><strong>Working Prototype</strong> — Fully functional, type-checked, PWA-installable, and connected to a live Supabase PostgreSQL database with real-time updates.</li>
+              <li><strong>Direct Problem Statement Alignment</strong> — Unifies campus life across all 5 key operational domains: Student Welfare &amp; Safety, Health / Emergency Blood Registry, Transport Schedules, Academic Communication, and Logistics / Hostel / Canteen.</li>
+              <li><strong>Realistic Engineering Scope</strong> — We prioritized a solid, secure, high-performance, and offline-capable core foundation (Authentication, 5 Specialized Campus Hubs, Grievance/Safety Reporting Desk, Post Interactions, Bookmarks, and Low-Bandwidth Resilience) before rolling out advanced hardware and sensor layers.</li>
+              <li><strong>Complete Documentation Suite</strong> — Our repository includes comprehensive documentation in the <code class="code-inline">/docs</code> directory:
+                <ul>
+                  <li><code class="code-inline">/docs/PRD.md</code> — Product Requirements Document, NITER Student Personas, and Roadmap.</li>
+                  <li><code class="code-inline">/docs/TECHNOLOGY.md</code> — System Architecture, PostgreSQL Schema (DDL), Security &amp; RLS Policies, and Performance Benchmarks.</li>
+                  <li><code class="code-inline">/docs/README.md</code> — Project Overview and 3-Minute Presentation Walkthrough.</li>
+                </ul>
+              </li>
+            </ol>
+            <blockquote class="pull">We look forward to presenting and demonstrating the prototype in the upcoming rounds!</blockquote>
+          </div>
+        </section>
+
+        <!-- ======================================================= -->
+        <!-- PANEL 2 — PRODUCT (PRD.md)                               -->
+        <!-- ======================================================= -->
+        <section id="panel-product" class="panel" role="tabpanel" aria-labelledby="tab-product" hidden>
+          <div class="doc-head">
+            <p class="doc-code">Document 02 · PRD.md</p>
+            <h2 class="doc-title">Product Requirements Document</h2>
+            <p class="doc-sub">Notebook — Unified Campus Social &amp; Real-Time Information Hub</p>
+            <div class="chip-row">
+              <span class="chip" style="background:var(--maroon)">v1.2</span>
+              <span class="chip" style="background:var(--maroon-soft)">Mentor Review Edition</span>
+              <span class="chip" style="background:#6b6248">Pilot: NITER</span>
+              <span class="chip" style="background:#6b6248">Multi-Campus Scalable</span>
+            </div>
+          </div>
+
+          <nav class="quicklinks" aria-label="Product sections">
+            <a href="#pr-summary">Executive Summary</a>
+            <a href="#pr-competitive">Competitive Landscape</a>
+            <a href="#pr-personas">Personas &amp; Journeys</a>
+            <a href="#pr-fr">Functional Requirements</a>
+            <a href="#pr-nfr">NFRs &amp; Quality</a>
+            <a href="#pr-risk">Risk Analysis</a>
+            <a href="#pr-roadmap">Roadmap</a>
+            <a href="#pr-rubric">Evaluation Rubric</a>
+          </nav>
+
+          <div class="prose">
+            <h3 id="pr-summary" style="margin-top:0;"><span class="num">§1</span>Executive Summary &amp; Vision</h3>
+            <p class="lede">Modern higher-education campuses suffer from extreme digital fragmentation. Academic routines, exam updates, campus transit alerts, emergency blood donor appeals, and lost-and-found notices are dispersed across disconnected WhatsApp groups, Facebook pages, Telegram channels, and physical notice boards.</p>
+            <p>This chaos leads to <strong>information overload, missed academic deadlines, delayed transit notices, and dangerous bottlenecks during medical emergencies</strong>.</p>
+            <p><strong>Notebook</strong> is a purpose-built, offline-capable Progressive Web Application (PWA) and verified campus social platform that unifies all essential student services into a centralized, fast, and accessible digital ecosystem.</p>
+            <blockquote class="pull">&ldquo;One Campus, One Feed, Zero Lost Notices.&rdquo;<br>Notebook replaces the noise of unstructured messaging groups with categorized, real-time, searchable, and offline-accessible campus hubs tailored to the student lifestyle.</blockquote>
+
+            <h3 id="pr-competitive"><span class="num">§2</span>Competitive Landscape &amp; Benchmark Analysis</h3>
+            <div class="tbl-wrap">
+              <table class="tbl tbl-compare">
+                <thead><tr><th>Dimension</th><th>WhatsApp / Messenger</th><th>Facebook Groups/Pages</th><th>Physical Notice Boards</th><th>Notebook</th></tr></thead>
+                <tbody>
+                  <tr><td>Information Structure</td><td>Chaotic chronological chat stream</td><td>Algorithmically demoted posts</td><td>Static, campus-bound only</td><td>5 Categorized Functional Hubs</td></tr>
+                  <tr><td>Emergency Blood Requests</td><td>Buried under general chatter</td><td>Low reach due to feed algorithms</td><td>Ineffective</td><td>Dedicated Health Tag &amp; Urgent Filter</td></tr>
+                  <tr><td>Offline Accessibility</td><td>Requires active internet</td><td>Fails completely offline</td><td>Physical only</td><td>PWA Caching &amp; Bottom Toast Alerts</td></tr>
+                  <tr><td>Campus Identity &amp; Trust</td><td>Random phone numbers / aliases</td><td>External unverified accounts</td><td>Anonymous</td><td>Department, Year &amp; Student ID Tagging</td></tr>
+                  <tr><td>Searchability</td><td>Poor search across media</td><td>Fragmented keywords</td><td>None</td><td>Instant Real-Time Keyword Filter</td></tr>
+                  <tr><td>Safety &amp; Moderation</td><td>Admin ban only (reactive)</td><td>Generic Facebook reporting</td><td>None</td><td>Built-in Campus Safety &amp; Report Desk</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="pr-personas"><span class="num">§3</span>Target User Personas &amp; Journeys</h3>
+            <div class="grid grid-2">
+              <div class="card persona-card accent-transport">
+                <span class="role">Persona 01 · Commuting Undergraduate</span>
+                <h5>Tanvir</h5>
+                <p>2nd Year CSE student; commutes 20km daily by campus transport.</p>
+                <dl>
+                  <dt>Frustrations</dt><dd>Misses abrupt bus departure changes, can&rsquo;t find assignment deadlines when Wi-Fi is spotty in transit.</dd>
+                  <dt>Notebook Solution</dt><dd>Checks the <span class="chip chip-transport" style="padding:2px 8px;">Transport Desk</span> and reads cached academic posts offline while on the bus.</dd>
+                </dl>
+              </div>
+              <div class="card persona-card accent-academic">
+                <span class="role">Persona 02 · Class Representative (CR)</span>
+                <h5>Sumaiya</h5>
+                <p>3rd Year CR responsible for 60+ classmates.</p>
+                <dl>
+                  <dt>Frustrations</dt><dd>Spends hours repeating routine changes, room reassignments, and lab schedules on WhatsApp.</dd>
+                  <dt>Notebook Solution</dt><dd>Publishes official notices under the <span class="chip chip-academic" style="padding:2px 8px;">Academic Hub</span> with permanent tags and reference bookmarks.</dd>
+                </dl>
+              </div>
+              <div class="card persona-card accent-health">
+                <span class="role">Persona 03 · Campus Health &amp; Red Crescent Lead</span>
+                <h5>Dr. Rafiq / Club Volunteer</h5>
+                <p>Campus medical volunteer coordinating emergency blood donations.</p>
+                <dl>
+                  <dt>Frustrations</dt><dd>Broadcasts for urgent blood (e.g., O-Negative) go unnoticed or get answered hours too late.</dd>
+                  <dt>Notebook Solution</dt><dd>Posts directly to the <span class="chip chip-health" style="padding:2px 8px;">Emergency Health Hub</span> with one-tap contact buttons for verified student donors.</dd>
+                </dl>
+              </div>
+              <div class="card persona-card accent-home">
+                <span class="role">Persona 04 · Administration &amp; Safety Officer</span>
+                <h5>Campus Administration</h5>
+                <p>Student Affairs coordinator tasked with maintaining student well-being.</p>
+                <dl>
+                  <dt>Frustrations</dt><dd>No structured channel to capture harassment complaints, lost property claims, or feedback.</dd>
+                  <dt>Notebook Solution</dt><dd>Reviews prioritized tickets via the Campus Safety &amp; Report Desk.</dd>
+                </dl>
+              </div>
+            </div>
+
+            <h4>End-to-End User Journey Map</h4>
+            <div class="code-wrap">
+              <pre class="blueprint"><code>  ┌─────────────────┐        ┌─────────────────────┐        ┌─────────────────────┐
+  │ 1. ONBOARDING  │        │ 2. DISCOVERY      │        │ 3. INTERACTION    │
+  │ • Quick Auth   │───────▶│ • Choose Hub      │───────▶│ • React (Upvote)  │
+  │ • Student ID   │        │ • Search &amp; Filter │        │ • Thread Comment  │
+  │ • Dept Tagging │        │ • Read Notices    │        │ • Save / Bookmark │
+  └─────────────────┘        └─────────────────────┘        └─────────────────────┘
+                                                                   |
+  ┌───────────────────┐       ┌───────────────────┐                   |
+  │ 5. RECONNECTION │       │ 4. OFFLINE MODE │                    |
+  │ • Sync Updates  │◀──────│ • Cached Posts  │◀────────────────────┘
+  │ • Status Toast  │       │ • Local Storage │
+  │ • Realtime Pull │       │ • Bottom Alert  │
+  └───────────────────┘       └───────────────────┘</code></pre>
+            </div>
+
+            <h3 id="pr-fr"><span class="num">§4</span>Comprehensive Functional Requirements</h3>
+
+            <h4>Module 1 — Authentication, Identity &amp; Recovery</h4>
+            <ul>
+              <li><strong>FR-1.1</strong> Student Registration &amp; Login: Email/password authentication via Supabase GoTrue with secure JWT session tokens.</li>
+              <li><strong>FR-1.2</strong> Identity Tagging: Auto-extracts and records student name, department (CSE, TE, EEE, FD, IPE) and academic year.</li>
+              <li><strong>FR-1.3</strong> Integrated Password Recovery: Users initiate password reset emails directly inside the authentication modal.</li>
+              <li><strong>FR-1.4</strong> Account Re-creation Safeguard: Handles re-registration cleanly by updating existing records without orphaned data.</li>
+            </ul>
+
+            <h4>Module 2 — Categorized Hub Feeds &amp; Search Engine</h4>
+            <ul>
+              <li><strong>FR-2.1</strong> Five Dedicated Functional Hubs: <span class="chip chip-home" style="padding:2px 8px;">Home/General</span> <span class="chip chip-academic" style="padding:2px 8px;">Academic</span> <span class="chip chip-transport" style="padding:2px 8px;">Transport</span> <span class="chip chip-logistics" style="padding:2px 8px;">Logistics</span> <span class="chip chip-health" style="padding:2px 8px;">Health &amp; Emergency</span></li>
+              <li><strong>FR-2.2</strong> Instant Filter &amp; Search: Real-time client-side substring and category filter with debounce for immediate results.</li>
+            </ul>
+
+            <h4>Module 3 — Post Creation &amp; Media Engine</h4>
+            <ul>
+              <li><strong>FR-3.1</strong> Rich Post Publishing: Title, formatted description, category assignment, and topic tags.</li>
+              <li><strong>FR-3.2</strong> Client-Side Image Compression: Automated image scaling and base64 compression to conserve mobile bandwidth and storage quotas.</li>
+              <li><strong>FR-3.3</strong> Author Identification Badge: Author avatar, full name, department chip, and human-readable relative timestamp (e.g., &ldquo;5m ago&rdquo;).</li>
+            </ul>
+
+            <h4>Module 4 — Community Engagement &amp; Personal Vault</h4>
+            <ul>
+              <li><strong>FR-4.1</strong> Multi-Sentiment Reactions: Upvote, Heart, and Helpful toggles.</li>
+              <li><strong>FR-4.2</strong> Threaded Comments: Collapsible peer discussion section under every post with real-time UI updates.</li>
+              <li><strong>FR-4.3</strong> Saved Vault (Bookmarks): Private one-click bookmarking for schedules and notices.</li>
+            </ul>
+
+            <h4>Module 5 — Progressive Web App (PWA) &amp; Offline Engine</h4>
+            <ul>
+              <li><strong>FR-5.1</strong> Installability: Manifest configuration enabling one-click &ldquo;Add to Home Screen&rdquo; on Android, iOS, Windows, and macOS.</li>
+              <li><strong>FR-5.2</strong> Service Worker Caching: Intelligent caching of CSS, JS bundles, fonts, and assets for instant app boots.</li>
+              <li><strong>FR-5.3</strong> Bottom Offline Notification: Animated bottom banner — &ldquo;You are currently offline. Showing cached campus content.&rdquo; — with automatic green reconnection confirmation.</li>
+            </ul>
+
+            <h4>Module 6 — Safety, Reporting &amp; Emergency Support</h4>
+            <ul>
+              <li><strong>FR-6.1</strong> Community Report Desk: Structured grievance submission for harassment, spam, misinformation, or academic violations.</li>
+              <li><strong>FR-6.2</strong> Campus Emergency Directory: One-tap action buttons (WhatsApp, Phone Call, Email) connecting students to campus security, medical centers, and proctorial teams.</li>
+            </ul>
+
+            <h3 id="pr-nfr"><span class="num">§5</span>Non-Functional Requirements &amp; Quality Standards</h3>
+            <div class="stat-grid">
+              <div class="stat-card"><span class="stat-num">&lt;0.8s</span><span class="stat-label">First Contentful Paint (4G)</span></div>
+              <div class="stat-card"><span class="stat-num">&lt;1.2s</span><span class="stat-label">Time to Interactive</span></div>
+              <div class="stat-card"><span class="stat-num">&lt;180KB</span><span class="stat-label">Initial Bundle (Gzipped)</span></div>
+              <div class="stat-card"><span class="stat-num">95+</span><span class="stat-label">Lighthouse Performance</span></div>
+              <div class="stat-card"><span class="stat-num">AA</span><span class="stat-label">WCAG 2.1 Accessibility</span></div>
+              <div class="stat-card"><span class="stat-num">99.9%</span><span class="stat-label">Cloud Uptime SLA</span></div>
+            </div>
+            <ul>
+              <li><strong>NFR-1 Security &amp; Privacy:</strong> All database mutations are protected with PostgreSQL Row-Level Security (RLS). Passwords are cryptographically hashed with bcrypt.</li>
+              <li><strong>NFR-2 Cross-Platform Compatibility:</strong> Fully responsive layout tested across mobile viewports (360px–428px), tablets (768px–1024px), and desktop displays (1280px+).</li>
+              <li><strong>NFR-3 Modularity &amp; Maintainability:</strong> Zero monolithic spaghetti code — strict modular breakdown separating Auth, Feed, Navigation, Post-Interactions, and Pages.</li>
+            </ul>
+
+            <h3 id="pr-risk"><span class="num">§6</span>Risk Analysis &amp; Mitigation Strategy</h3>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Identified Risk</th><th>Severity</th><th>Probability</th><th>Mitigation Strategy</th></tr></thead>
+                <tbody>
+                  <tr><td>Low connectivity during campus rush hours</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-high">High</span></td><td>Offline Service Worker caching with graceful fallback to cached feed data.</td></tr>
+                  <tr><td>Spam / misinformation in emergency posts</td><td><span class="pill pill-high">High</span></td><td><span class="pill pill-medium">Medium</span></td><td>Verified department identity tags and instantaneous community report queue.</td></tr>
+                  <tr><td>Storage exhaustion from large image uploads</td><td><span class="pill pill-medium">Medium</span></td><td><span class="pill pill-medium">Medium</span></td><td>Client-side compression pipeline limits payloads before transmission.</td></tr>
+                  <tr><td>Database rate limits during hackathon demo</td><td><span class="pill pill-medium">Medium</span></td><td><span class="pill pill-low">Low</span></td><td>Dual-mode data fetching: live Supabase query with automatic local fallback state.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="pr-roadmap"><span class="num">§7</span>Phased Product Roadmap</h3>
+            <div class="timeline">
+              <div class="phase current">
+                <div class="phase-head"><span class="phase-tag">Phase 1</span><h4>Hackathon MVP</h4><span class="current-flag">Current Production Candidate</span></div>
+                <ul>
+                  <li>Complete Supabase Auth with Password Recovery &amp; Profile Management</li>
+                  <li>5 Functional Hubs (Academic, Transport, Logistics, Health, General)</li>
+                  <li>Real-time Reactions, Threaded Comments, and Saved Bookmarks</li>
+                  <li>Offline-First PWA with Smart Bottom Status Banner</li>
+                  <li>Campus Safety Report Desk &amp; Emergency Directory</li>
+                </ul>
+              </div>
+              <div class="phase">
+                <div class="phase-head"><span class="phase-tag">Phase 2</span><h4>Post-Selection Scale &amp; Integration</h4></div>
+                <ul>
+                  <li>Direct Peer-to-Peer Encrypted Chat &amp; Classmate Messaging</li>
+                  <li>Live GPS Campus Shuttle Tracking on Interactive Map</li>
+                  <li>Automated Blood Donor Push Alerts (Matching Blood Group &amp; Location)</li>
+                  <li>University Single Sign-On (SSO) &amp; Student Portal API Integration</li>
+                </ul>
+              </div>
+              <div class="phase">
+                <div class="phase-head"><span class="phase-tag">Phase 3</span><h4>Inter-Campus Expansion</h4></div>
+                <ul>
+                  <li>Multi-University Federation (Inter-Campus Academic Contests)</li>
+                  <li>AI-Powered Routine &amp; Exam Schedule Extractor from PDFs</li>
+                  <li>Campus Marketplace for Used Textbooks &amp; Lab Equipment</li>
+                </ul>
+              </div>
+            </div>
+
+            <h3 id="pr-rubric"><span class="num">§8</span>Hackathon Evaluation Rubric Alignment</h3>
+            <div class="tbl-wrap">
+              <table class="tbl">
+                <thead><tr><th>Criterion</th><th>Weight</th><th>How Notebook Excels</th></tr></thead>
+                <tbody>
+                  <tr><td>Innovation &amp; Impact</td><td><code>30%</code></td><td>Directly solves the daily campus communication nightmare and life-critical blood donor bottleneck.</td></tr>
+                  <tr><td>Technical Execution</td><td><code>25%</code></td><td>PWA offline capability, sub-second performance, modular ES6+ architecture, and Supabase integration.</td></tr>
+                  <tr><td>Design &amp; User Experience</td><td><code>25%</code></td><td>Intuitive 5-hub navigation, clean dark/light UI, responsive mobile-first ergonomics, and zero clutter.</td></tr>
+                  <tr><td>Completeness &amp; Viability</td><td><code>20%</code></td><td>Fully working prototype with robust error handling, seed resilience, and a clear multi-phase roadmap.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ======================================================= -->
+        <!-- PANEL 3 — ENGINEERING (TECHNOLOGY.md)                   -->
+        <!-- ======================================================= -->
+        <section id="panel-engineering" class="panel" role="tabpanel" aria-labelledby="tab-engineering" hidden>
+          <div class="doc-head">
+            <p class="doc-code">Document 03 · TECHNOLOGY.md</p>
+            <h2 class="doc-title">Technical Architecture &amp; Engineering</h2>
+            <p class="doc-sub">Decoupled Client-First PWA with Backend-as-a-Service (BaaS)</p>
+            <div class="chip-row">
+              <span class="chip" style="background:var(--forest)">Vanilla ES6+ Modules</span>
+              <span class="chip" style="background:var(--forest-soft)">Tailwind CSS v4</span>
+              <span class="chip" style="background:#6b6248">Lucide Icons</span>
+              <span class="chip" style="background:#6b6248">Vite 6</span>
+              <span class="chip" style="background:var(--navy)">Supabase / PostgreSQL 15</span>
+              <span class="chip" style="background:var(--navy-soft)">Service Worker PWA</span>
+            </div>
+          </div>
+
+          <nav class="quicklinks" aria-label="Engineering sections">
+            <a href="#en-pipeline">Architecture &amp; Pipeline</a>
+            <a href="#en-stack">Stack Rationale</a>
+            <a href="#en-schema">Database Schema</a>
+            <a href="#en-dir">Frontend Directory Map</a>
+            <a href="#en-pwa">PWA Implementation</a>
+            <a href="#en-perf">Performance Benchmarks</a>
+          </nav>
+
+          <div class="prose">
+            <h3 id="en-pipeline" style="margin-top:0;"><span class="num">§1</span>System Architecture &amp; End-to-End Data Pipeline</h3>
+            <p>Notebook utilizes a high-performance <strong>Client-First Progressive Web Architecture</strong>. The frontend operates as a zero-runtime-overhead SPA that interfaces directly with Supabase cloud infrastructure through authenticated RESTful APIs and PostgreSQL Change Data Capture (CDC) WebSockets.</p>
+            <div class="code-wrap">
+              <pre class="blueprint"><code>                    ┌──────────────────────────────────────────────────┐
+                    │              STUDENT CLIENT                  │
+                    │  PWA (Android / iOS / Windows / macOS / Web) │
+                    └──────────────────────┬───────────────────────────┘
+                                         │
+                       ┌───────────────────┴───────────────────────┐
+                       │                                       │
+                       ▼                                       ▼
+          ┌────────────────────────────┐                 ┌───────────────────────────┐
+          │  SERVICE WORKER (sw.js) │                 │ MODULAR JAVASCRIPT CORE  │
+          │  • Cache-First Assets   │                 │ • Feed &amp; Comments Engine │
+          │  • Offline Interceptor  │                 │ • Auth &amp; Session Mgr     │
+          │  • Network State Bridge │                 │ • Reactions &amp; Bookmarks  │
+          └────────────┬───────────────┘                 └─────────────┬─────────────┘
+                      │ (Cache Hit / Fallback)                    │ (REST / WebSockets)
+                      ▼                                           ▼
+          ┌──────────────────────────┐                 ┌─────────────────────────┐
+          │   BROWSER STORAGE      │                 │   SUPABASE CLOUD      │
+          │   • CacheStorage API   │                 │ • GoTrue Auth (JWT)   │
+          │   • LocalStorage Vault │                 │ • PostgreSQL 15 (RLS) │
+          │   • Session Storage    │                 │ • Realtime Channels   │
+          └──────────────────────────┘                 └─────────────────────────┘</code></pre>
+            </div>
+
+            <h3 id="en-stack"><span class="num">§2</span>Technology Stack Evaluation &amp; Rationale</h3>
+            <div class="tbl-wrap">
+              <table class="tbl tbl-stack">
+                <thead><tr><th>Layer</th><th>Selected Tech</th><th>Alternative Considered</th><th>Why This Was Chosen</th></tr></thead>
+                <tbody>
+                  <tr><td>Frontend Core</td><td>Vanilla ES6+ Modules</td><td>React / Angular / Vue</td><td><strong>Zero Runtime Overhead:</strong> boots in milliseconds on low-end budget smartphones; avoids virtual DOM memory pressure.</td></tr>
+                  <tr><td>Styling &amp; Design</td><td>Tailwind CSS v4</td><td>CSS Modules / Styled-Components</td><td><strong>Utility-First Speed:</strong> instant responsive styling, unified theme tokens, dark/light palette, minimal CSS footprint.</td></tr>
+                  <tr><td>Vector Icons</td><td>Lucide Icons</td><td>FontAwesome / Material Icons</td><td><strong>Sharp &amp; Light:</strong> tree-shakeable SVG rendering with uniform stroke weights across high-DPI displays.</td></tr>
+                  <tr><td>Build &amp; Tooling</td><td>Vite 6 + TypeScript 5.8</td><td>Webpack / Parcel</td><td><strong>Sub-Second Compilation:</strong> lightning-fast HMR in dev, ultra-lean production bundling with asset hashing.</td></tr>
+                  <tr><td>Backend &amp; DB</td><td>Supabase (PostgreSQL 15)</td><td>Firebase / MongoDB</td><td><strong>Relational Integrity &amp; RLS:</strong> native SQL relationships between profiles, posts, and comments.</td></tr>
+                  <tr><td>Authentication</td><td>Supabase GoTrue</td><td>Custom Node Auth Server</td><td><strong>RFC-Compliant JWT:</strong> native bcrypt hashing, token auto-refresh, integrated SMTP password reset.</td></tr>
+                  <tr><td>Offline Resilience</td><td>Native Service Worker (sw.js)</td><td>Workbox / Offline Plugins</td><td><strong>Predictable Caching:</strong> direct control over asset strategies and the custom offline toast lifecycle.</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h3 id="en-schema"><span class="num">§3</span>Database Schema &amp; Data Modeling</h3>
+            <h4>Entity Relationship Diagram</h4>
+            <div class="code-wrap">
+              <pre class="blueprint"><code>  ┌──────────────────────────────────┐               ┌────────────────────────────────────────┐
+  │             PROFILES          │1             *│                POSTS                │
+  ├──────────────────────────────────┤               ├────────────────────────────────────────┤
+  │ id            : UUID (PK)     │               │ id            : UUID / TEXT (PK)    │
+  │ name          : TEXT          │               │ author_id     : UUID (FK-&gt;profiles) │
+  │ student_id    : TEXT          │               │ author_name   : TEXT                │
+  │ department    : TEXT          │               │ author_avatar : TEXT                │
+  │ year          : TEXT          │               │ category      : TEXT (Enum check)   │
+  │ avatar_url    : TEXT          │               │ title         : TEXT                │
+  │ created_at    : TIMESTAMPTZ   │               │ content       : TEXT                │
+  │ updated_at    : TIMESTAMPTZ   │               │ image_url     : TEXT (Base64/URL)   │
+  └─────────────────┬────────────────┘               │ likes         : INTEGER             │
+                  │ 1                             │ reactions     : JSONB               │
+                  │ *                             │ created_at    : TIMESTAMPTZ         │
+  ┌─────────────────▼───────────────────┐            └──────────────────────┬─────────────────┘
+  │             REPORTS              │                                │ 1
+  ├─────────────────────────────────────┤                                │ *
+  │ id            : UUID (PK)        │               ┌──────────────────▼─────────────────────┐
+  │ reporter_id   : UUID             │               │              COMMENTS               │
+  │ target_id     : TEXT             │               ├────────────────────────────────────────┤
+  │ category      : TEXT             │               │ id            : UUID / TEXT (PK)    │
+  │ details       : TEXT             │               │ post_id       : UUID (FK-&gt;posts)    │
+  │ status        : TEXT ('pending') │               │ user_id       : UUID (FK-&gt;profiles) │
+  │ created_at    : TIMESTAMPTZ      │               │ user_name     : TEXT                │
+  └─────────────────────────────────────┘               │ user_avatar   : TEXT                │
+                                                     │ text          : TEXT                │
+                                                     │ created_at    : TIMESTAMPTZ         │
+                                                     └────────────────────────────────────────┘</code></pre>
+            </div>
+
+            <h4>Production DDL &amp; Security Rules (PostgreSQL 15)</h4>
+            <div class="code-wrap">
+              <div class="code-label">SQL — schema, indexes &amp; row-level security</div>
+              <pre><code>-- Enable UUID generation extension
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- 1. Profiles Table
+CREATE TABLE public.profiles (
+    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    name TEXT NOT NULL,
+    student_id TEXT,
+    department TEXT,
+    year TEXT,
+    avatar_url TEXT,
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 2. Posts Table with Category Constraint
+CREATE TABLE public.posts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    author_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    author_name TEXT NOT NULL,
+    author_avatar TEXT,
+    category TEXT NOT NULL CHECK (category IN ('home', 'academic', 'transport', 'logistics', 'health')),
+    title TEXT,
+    content TEXT NOT NULL,
+    image_url TEXT,
+    likes INTEGER DEFAULT 0,
+    reactions JSONB DEFAULT '{"upvote": 0, "heart": 0, "helpful": 0}'::jsonb,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 3. Comments Table
+CREATE TABLE public.comments (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    post_id UUID REFERENCES public.posts(id) ON DELETE CASCADE,
+    user_id UUID REFERENCES public.profiles(id) ON DELETE SET NULL,
+    user_name TEXT NOT NULL,
+    user_avatar TEXT,
+    text TEXT NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- 4. Reports Table for Campus Safety Desk
+CREATE TABLE public.reports (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    reporter_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+    target_id TEXT NOT NULL,
+    category TEXT NOT NULL,
+    details TEXT NOT NULL,
+    status TEXT DEFAULT 'pending' CHECK (status IN ('pending', 'reviewed', 'resolved')),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+-- Indexes for Sub-Second Query Execution
+CREATE INDEX idx_posts_category ON public.posts(category);
+CREATE INDEX idx_posts_created_at ON public.posts(created_at DESC);
+CREATE INDEX idx_comments_post_id ON public.comments(post_id);
+
+-- Enable Row-Level Security (RLS)
+ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.comments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.reports ENABLE ROW LEVEL SECURITY;
+
+-- RLS Policy: Public read for campus posts
+CREATE POLICY "Public profiles can read posts" ON public.posts
+    FOR SELECT USING (true);
+
+-- RLS Policy: Authenticated users can insert posts
+CREATE POLICY "Authenticated users can create posts" ON public.posts
+    FOR INSERT WITH CHECK (auth.role() = 'authenticated');
+
+-- RLS Policy: Users can only update/delete their own posts
+CREATE POLICY "Authors can update own posts" ON public.posts
+    FOR UPDATE USING (auth.uid() = author_id);
+
+CREATE POLICY "Authors can delete own posts" ON public.posts
+    FOR DELETE USING (auth.uid() = author_id);</code></pre>
+            </div>
+
+            <h3 id="en-dir"><span class="num">§4</span>Frontend Architecture &amp; Directory Map</h3>
+            <div class="code-wrap">
+              <pre><code>├── /css
+│   ├── /base
+│   │   ├── reset.css          # Modern box-sizing &amp; clean baseline styles
+│   │   ├── typography.css     # Display &amp; body font pairings with mathematical scaling
+│   │   └── animations.css     # Smooth micro-interactions &amp; entry keyframes
+│   ├── /components
+│   │   ├── auth-modal.css     # Tabbed Login, Signup &amp; Forgot Password overlay
+│   │   ├── create-post.css    # Rich post creation modal with image preview
+│   │   ├── cards.css          # Modular quick-action cards for each campus hub
+│   │   ├── feed.css           # Clean feed cards, reaction pills &amp; comments
+│   │   └── pwa.css            # Bottom offline alert &amp; install banner styles
+│   ├── /layout
+│   │   ├── navbar.css         # Sticky desktop &amp; mobile top navigation bar
+│   │   ├── sidebar.css        # Adaptive left navigation panel
+│   │   └── main-layout.css    # Responsive container grids &amp; breakpoints
+│   └── /pages
+│       ├── friends.css        # Classmate discovery &amp; campus network styling
+│       ├── profile.css        # Student profile header, badges &amp; activity
+│       ├── saved.css          # Private bookmarking vault view
+│       ├── support.css        # Emergency helpline directory
+│       ├── report.css         # Campus safety &amp; moderation desk
+│       └── settings.css       # Preference controls &amp; theme toggles
+│
+├── /js
+│   ├── /config
+│   │   └── supabase.js        # Supabase client singleton &amp; environment configuration
+│   ├── /modules
+│   │   ├── auth.js            # User session, login, signup, and password recovery
+│   │   ├── feed.js            # Post rendering, category switching &amp; search filtering
+│   │   ├── post-interactions.js # Upvote, Heart, Helpful reaction engine &amp; bookmarks
+│   │   ├── comments.js        # Threaded discussion fetching &amp; publishing
+│   │   ├── navigation.js      # SPA route manager &amp; active module state
+│   │   ├── pwa.js             # Online/offline network monitor &amp; install prompt
+│   │   └── realtime.js        # Supabase Realtime broadcast listener
+│   ├── /pages
+│   │   ├── profile.js         # Profile page data binding &amp; edit handler
+│   │   ├── saved.js           # Bookmarks storage retrieval &amp; render engine
+│   │   ├── support.js         # Emergency contact shortcuts &amp; FAQs
+│   │   └── report.js          # Moderation ticket generator
+│   └── main.js                # App bootstrap, DOM bindings &amp; global event orchestration
+│
+├── /sw.js                     # Offline Service Worker cache engine
+├── manifest.json              # Web App Manifest specification
+└── index.html                 # Semantic HTML5 root entry point</code></pre>
+            </div>
+
+            <h3 id="en-pwa"><span class="num">§5</span>Offline-First PWA Implementation</h3>
+            <h4>Service Worker Caching Pipeline (sw.js)</h4>
+            <div class="code-wrap">
+              <pre class="blueprint"><code>   HTTP Fetch Request
+          │
+          ▼
+   ┌────────────────┐   Cache Hit
+   │ ServiceWorker │──────────────▶ Return Cached Static Asset (&lt;10ms)
+   └──────┬─────────┘
+        │ Cache Miss
+        ▼
+   ┌────────────────┐   Online
+   │ Network Fetch │──────────────▶ Return Fresh Data &amp; Update Cache
+   └──────┬─────────┘
+        │ Offline / Failed
+        ▼
+   ┌───────────────┐
+   │ Offline Mode │──────────────▶ Trigger Bottom Alert &amp; Return Cached Feed State
+   └───────────────┘</code></pre>
+            </div>
+            <h4>Dynamic Network Status Controller (/js/modules/pwa.js)</h4>
+            <ul>
+              <li><strong>State Detection:</strong> watches <code class="code-inline">window.addEventListener('offline')</code> and <code class="code-inline">'online'</code>.</li>
+              <li><strong>Non-Intrusive Bottom Banner:</strong> when offline, slides up a discrete bottom banner:</li>
+            </ul>
+            <div class="code-wrap">
+              <pre><code>&lt;div id="pwa-offline-banner" class="pwa-offline-banner visible"&gt;
+  &lt;span class="pwa-status-dot"&gt;&lt;/span&gt;
+  You are currently offline. Showing cached campus content.
+&lt;/div&gt;</code></pre>
+            </div>
+            <ul>
+              <li><strong>Seamless Reconnection:</strong> when the connection is re-established, the banner updates with a green dot and confirmation (&ldquo;Back online! Connection restored.&rdquo;) before smoothly exiting.</li>
+            </ul>
+
+            <h3 id="en-perf"><span class="num">§6</span>Performance Benchmarks &amp; Build Pipeline</h3>
+            <h4><span aria-hidden="true" style="margin-right:6px">📜</span>Measured Lighthouse Results</h4>
+            <div class="perf-meta">
+              <span>Audited Aug 13, 2026 · Lighthouse 13.4.0 · Desktop · niter.pages.dev</span>
+              <span class="rule" aria-hidden="true"></span>
+              <a class="report-link" href="lighthouse/index.html">View full report →</a>
+            </div>
+
+            <div class="score-row">
+              <div class="score-badge score-mid">
+                <div class="score-ring" style="--score:66%"><span class="score-value">66</span></div>
+                <span class="score-name">Performance</span>
+              </div>
+              <div class="score-badge score-good">
+                <div class="score-ring" style="--score:100%"><span class="score-value">100</span></div>
+                <span class="score-name">Accessibility</span>
+              </div>
+              <div class="score-badge score-good">
+                <div class="score-ring" style="--score:100%"><span class="score-value">100</span></div>
+                <span class="score-name">Best Practices</span>
+              </div>
+              <div class="score-badge score-good">
+                <div class="score-ring" style="--score:92%"><span class="score-value">92</span></div>
+                <span class="score-name">SEO</span>
+              </div>
+            </div>
+
+            <div class="stat-grid">
+              <div class="stat-card"><span class="stat-num">1.2s</span><span class="stat-label">First Contentful Paint</span></div>
+              <div class="stat-card"><span class="stat-num">1.8s</span><span class="stat-label">Largest Contentful Paint</span></div>
+              <div class="stat-card"><span class="stat-num">1.3s</span><span class="stat-label">Speed Index</span></div>
+              <div class="stat-card"><span class="stat-num">0ms</span><span class="stat-label">Total Blocking Time</span></div>
+              <div class="stat-card"><span class="stat-num">0.635</span><span class="stat-label">Cumulative Layout Shift</span></div>
+              <div class="stat-card"><span class="stat-num">513KB</span><span class="stat-label">Total Page Weight</span></div>
+            </div>
+            <h4>Build &amp; Verification Commands</h4>
+            <div class="code-wrap">
+              <pre><code># Execute static type checking and linting
+npm run lint
+
+# Production compilation and minification
+npm run build
+
+# Launch local preview server
+npm run preview</code></pre>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <p class="colophon">Notebook — Case File compiled from README.md · PRD.md · TECHNOLOGY.md &nbsp;·&nbsp; Built for the NITER Campus Hackathon</p>
+  </div>
+</div>
+
+<button type="button" id="backToTop" class="back-to-top" aria-label="Back to top" aria-hidden="true" tabindex="-1">↑</button>
+
+<script>
+  (function(){
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab-btn'));
+    var validTargets = ['overview','product','engineering'];
+
+    function activate(target, focusTab){
+      if(validTargets.indexOf(target) === -1) target = 'overview';
+      tabs.forEach(function(btn){
+        var isActive = btn.getAttribute('data-target') === target;
+        btn.classList.toggle('active', isActive);
+        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+      document.querySelectorAll('.panel').forEach(function(panel){
+        var isActive = panel.id === 'panel-' + target;
+        panel.classList.toggle('active', isActive);
+        if(isActive){ panel.removeAttribute('hidden'); } else { panel.setAttribute('hidden',''); }
+      });
+      if(history.replaceState){ history.replaceState(null, '', '#' + target); }
+      var wrap = document.querySelector('.page-wrap');
+      if(wrap){
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        wrap.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      }
+      if(focusTab){
+        var btn = document.getElementById('tab-' + target);
+        if(btn) btn.focus();
+      }
+    }
+
+    tabs.forEach(function(btn, i){
+      btn.addEventListener('click', function(){ activate(btn.getAttribute('data-target'), false); });
+      btn.addEventListener('keydown', function(e){
+        if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+          e.preventDefault();
+          var next = e.key === 'ArrowRight' ? (i+1) % tabs.length : (i-1+tabs.length) % tabs.length;
+          activate(tabs[next].getAttribute('data-target'), true);
+        }
+      });
+    });
+
+    var initial = (location.hash || '').replace('#','');
+    if(validTargets.indexOf(initial) !== -1){ activate(initial, false); }
+  })();
+
+  (function(){
+    var btn = document.getElementById('backToTop');
+    if(!btn) return;
+    var threshold = 480;
+
+    function toggle(){
+      var show = window.scrollY > threshold;
+      btn.classList.toggle('visible', show);
+      btn.setAttribute('aria-hidden', show ? 'false' : 'true');
+      btn.tabIndex = show ? 0 : -1;
+    }
+
+    btn.addEventListener('click', function(){
+      var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+    });
+
+    window.addEventListener('scroll', toggle, { passive: true });
+    toggle();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,361 @@
+.settings-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.settings-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.settings-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.settings-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.settings-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.settings-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.settings-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--ink);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out);
+}
+
+@media (max-width: 600px) {
+    .settings-card {
+        padding: 1.25rem 1rem;
+    }
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.form-hint {
+    font-size: 0.775rem;
+    color: var(--muted);
+}
+
+.settings-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.settings-msg {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.settings-msg.success {
+    color: #10B981;
+}
+
+.settings-msg.error {
+    color: var(--danger);
+}
+
+/* Theme Selection Group */
+.theme-selection-group {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+@media (max-width: 600px) {
+    .theme-selection-group {
+        grid-template-columns: 1fr;
+    }
+}
+
+.theme-option {
+    position: relative;
+    cursor: pointer;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1rem;
+    background: var(--bg);
+    transition: border-color 0.2s var(--ease-out), background-color 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+    display: block;
+}
+
+.theme-option:hover {
+    border-color: var(--muted);
+    transform: translateY(-2px);
+}
+
+.theme-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.theme-option.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.theme-option-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    color: var(--ink-soft);
+}
+
+.theme-option.active .theme-option-content {
+    color: var(--accent);
+}
+
+.theme-option-content svg, .theme-option-content i {
+    width: 24px;
+    height: 24px;
+}
+
+.theme-label {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+}
+
+.theme-desc {
+    font-size: 0.775rem;
+    color: var(--muted);
+}
+
+/* Button & Alignment Styles */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-md);
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease-out), transform 0.15s var(--ease-out);
+    border: none;
+    outline: none;
+}
+
+.btn i, .btn svg {
+    width: 18px;
+    height: 18px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+.btn span {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.btn-primary {
+    background-color: var(--accent);
+    color: #ffffff;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn-danger {
+    background-color: var(--danger, #EF4444);
+    color: #FFFFFF !important;
+    border: 1px solid var(--danger, #EF4444);
+    box-shadow: 0 1px 3px rgba(239, 68, 68, 0.2);
+    transition: all 0.2s var(--ease-out);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background-color: #DC2626 !important;
+    border-color: #B91C1C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+    transform: translateY(-1px);
+}
+
+.btn-danger:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
+}
+
+.btn-danger:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    transition: all 0.2s var(--ease-out);
+}
+
+.btn-outline:hover:not(:disabled) {
+    background-color: var(--bg);
+    border-color: var(--ink-soft);
+    color: var(--ink);
+}
+
+/* Danger Zone / Account Deletion Card */
+.danger-zone-card {
+    border-color: rgba(239, 68, 68, 0.25);
+    background: var(--surface);
+    transition: border-color 0.2s var(--ease-out);
+}
+
+.danger-icon {
+    background: rgba(239, 68, 68, 0.1) !important;
+    color: var(--danger, #EF4444) !important;
+}
+
+.text-danger {
+    color: var(--danger, #EF4444) !important;
+}
+
+.delete-account-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.delete-account-warning {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    padding: 0.85rem 1rem;
+    background: rgba(239, 68, 68, 0.06);
+    border-left: 3px solid var(--danger, #EF4444);
+    border-radius: var(--radius-sm);
+}
+
+.delete-account-form-box {
+    animation: fadeIn 0.25s var(--ease-out) forwards;
+}
+
+.delete-account-form-box.hidden,
+.delete-account-initial.hidden {
+    display: none !important;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.delete-summary-list {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.delete-summary-list li {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-summary-list li i {
+    width: 16px;
+    height: 16px;
+    color: var(--danger, #EF4444);
+}
+
+.delete-confirm-prompt {
+    font-size: 0.875rem;
+    color: var(--ink);
+    margin-top: 0.5rem;
+}
+
+

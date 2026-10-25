@@ -1,0 +1,297 @@
+.privacy-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.privacy-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.privacy-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.privacy-card-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    background: var(--accent-soft);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+}
+
+.privacy-card-title {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 0.25rem;
+}
+
+.privacy-card-subtitle {
+    font-size: 0.875rem;
+    color: var(--muted);
+}
+
+.privacy-options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.privacy-toggle-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding: 0.85rem 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+@media (max-width: 600px) {
+    .privacy-card {
+        padding: 1.25rem 1rem;
+    }
+    .privacy-toggle-item {
+        padding: 0.75rem 0.85rem;
+        gap: 0.75rem;
+    }
+}
+
+.privacy-toggle-item:hover {
+    border-color: var(--accent-glow);
+}
+
+.privacy-toggle-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.privacy-toggle-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+}
+
+.privacy-toggle-desc {
+    font-size: 0.825rem;
+    color: var(--muted);
+    line-height: 1.4;
+}
+
+/* Custom Switch Toggle UI */
+.toggle-control-group {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle-status-badge {
+    font-size: 0.78rem;
+    font-weight: 700;
+    padding: 0.2rem 0.55rem;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+}
+
+.toggle-status-badge.status-on {
+    background: rgba(37, 99, 235, 0.12);
+    color: var(--accent);
+    border: 1px solid rgba(37, 99, 235, 0.3);
+}
+
+.toggle-status-badge.status-off {
+    background: var(--surface);
+    color: var(--muted);
+    border: 1px solid var(--border);
+}
+
+.switch-label {
+    position: relative;
+    display: inline-block;
+    width: 48px;
+    height: 26px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.switch-label input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.switch-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border);
+    transition: 0.25s ease;
+    border-radius: 34px;
+}
+
+.switch-slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.25s ease;
+    border-radius: 50%;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .switch-slider {
+    background-color: var(--accent);
+}
+
+input:focus + .switch-slider {
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+input:checked + .switch-slider:before {
+    transform: translateX(22px);
+}
+
+/* Activity Visibility Radio Group */
+.visibility-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .visibility-options-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.visibility-option-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem;
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.visibility-option-card:hover {
+    border-color: var(--accent);
+}
+
+.visibility-option-card.active {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+}
+
+.visibility-option-card input[type="radio"] {
+    margin-top: 0.25rem;
+    accent-color: var(--accent);
+}
+
+.visibility-option-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.visibility-option-title {
+    font-weight: 600;
+    font-size: 0.925rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.visibility-option-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.35;
+}
+
+.privacy-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+}
+
+.privacy-msg {
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.privacy-msg.success {
+    color: #10B981;
+}
+
+.privacy-msg.error {
+    color: #EF4444;
+}
+
+.comments-disabled-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+    background: var(--surface-hover);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-md);
+    color: var(--muted);
+    font-size: 0.875rem;
+    margin-top: 0.75rem;
+}
+
+.tag-disabled-badge,
+.tag-disabled-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.78rem;
+    color: #EF4444;
+    font-weight: 500;
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    border-radius: 0 !important;
+}
